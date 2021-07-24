@@ -1,12 +1,9 @@
 
-#----------------------------------------------------------#
+#-------------------------------------------------------#
 # The following script containts the code underlying the
 # Curate Science example case in the Replication Value 
 # manuscript.
-#
-# The replication value used for this example:
-# Yearly citation rate multiplied by variance of Fisher's Z.
-#----------------------------------------------------------#
+#-------------------------------------------------------#
 
 
 #### Load dataset and relevant packages, and set working dir #### 
@@ -29,11 +26,21 @@ library(rcrossref)
 # write_json(cursci_orig_cr, "curate_science_orig_study_crossref.json", pretty = TRUE)
 # saveRDS(cursci_orig_cr, "curate_science_orig_study_crossref.Rds")
 
-## Load Pyschological bulletin data
+
+
+
+# Psychological Bulletin sample
+
+### Update citation counts for Psych. Bulletin dataset
+#pbul_citations <- cr_citation_count(doi = pbul.df$x_doi)  
+#saveRDS(pbul_citations, "psych_bulletin_crossref_citation_count_downloaded_2020-10-20.Rds")
+
+## Load data
 pbul.df <- readRDS("psybull_meta_data.rds")
 pbul_citations <- readRDS("psych_bulletin_crossref_citation_count_downloaded_2020-10-20.Rds") # Download most recent citation count data
 names(pbul_citations) <- c("x_doi", "x_crcited")
-### Update citation counts in pbul.df with citation counts in pbul_citations. 
+
+## Update citation counts in pbul.df with citation counts in pbul_citations. 
 pbul.df$x_crcited <- NULL
 x <- unique(pbul_citations)  # remove duplicates of doi-citation count combinations
 dups <- x[x$x_doi %in% x[duplicated(x$x_doi), "x_doi"],]  # dois with two matching citation counts - likely caused by crossref updating citation counts as data were being generated, since in all cases, citation count only differs by 1. Solution: delete lower citation count duplicate.
@@ -42,24 +49,33 @@ delete <- as.numeric(rownames(dups[seq(1, nrow(dups), by = 2),]))  # row numbers
 x <- x[!rownames(x) %in% delete,]  # remove rows from x to get completely unique doi-citation count combinations
 pbul.df <- left_join(pbul.df, x, by = "x_doi")  # update citation counts in pbul.df
 ### Update done
+
+## Calculate replication value
 pbul.df$years_since_pub <- 2019 - pbul.df$x_pubyear  # Years since publication
 pbul.df$cit_p_year <- pbul.df$x_crcited / pbul.df$years_since_pub  # average number of citations per year
 pbul.df$RV <- pbul.df$cit_p_year * (1/sqrt(pbul.df$x_n))  # RV per record
 pbul.df <- pbul.df[!is.na(pbul.df$RV), ]  # Reduce data to those records for which RV can be calculated (i.e. has info on all input parameters and sample size >4)
 pbul.cit.df <- pbul.df[!duplicated(pbul.df$x_doi), c("x_doi", "x_crcited", "x_pubyear", "years_since_pub", "cit_p_year", "x_n", "RV")]  # Aggregate citation data over duplicate article references
 
-### Update citation counts for Psych. Bulletin dataset
-#pbul_citations <- cr_citation_count(doi = pbul.df$x_doi)  
-#saveRDS(pbul_citations, "psych_bulletin_crossref_citation_count_downloaded_2020-10-20.Rds")
+## Delete vestigials
+rm(list=c("dups", "pbul_citations", "pbul.df", "x", "delete"))
 
+
+
+# Curate Science sample
+
+### Update citation counts for Curate Science dataset
+#cursci_citations <- cr_citation_count(doi = curate_science$orig.study.article.DOI)  
+#saveRDS(cursci_citations, "curate_science_crossref_citation_count_downloaded_2020-10-20.Rds")
 
 
 ## Load Curate Science data
 curate_science <- read.csv("curate_science.csv", na.strings = "", stringsAsFactors = FALSE)  # Load curate science data
 curate_science$orig.N <- as.numeric(curate_science$orig.N)  # Interpret sample size as numeric variable
 cursci_orig_cr <- readRDS("curate_science_orig_study_crossref.Rds")  # Load bibliometrics
-### Update citation counts in curate_science with citation counts in curate_science. 
-cursci_citations <- readRDS("curate_science_crossref_citation_count_downloaded_2020-10-20.Rds") # Download most recent citation count data
+
+### Update citation counts in curate_science data with citation counts from Crossref.
+cursci_citations <- readRDS("curate_science_crossref_citation_count_downloaded_2020-10-20.Rds") # Load most recent citation count data
 names(cursci_citations) <- c("orig.study.article.DOI", "orig.citations")
 curate_science$orig.citations <- NULL
 x <- unique(cursci_citations)  # remove duplicates of doi-citation count combinations
@@ -67,20 +83,17 @@ dups <- x[x$orig.study.article.DOI %in% x[duplicated(x$orig.study.article.DOI), 
 dups <- dups[order(dups$orig.study.article.DOI, dups$orig.citations),]  # order dups. Now, odd rows represents lower citation count duplicates we want to delete.
 delete <- as.numeric(rownames(dups[seq(1, nrow(dups), by = 2),]))  # row numbers in x for the odd rows in dups that are to be deleted.
 x <- x[!rownames(x) %in% delete,]  # remove rows from x to get completely unique doi-citation count combinations
-curate_science <- left_join(x = curate_science, y = x, by = "orig.study.article.DOI")  # update citation counts in pbul.df
-rm(dups, x, delete)
+curate_science <- left_join(x = curate_science, y = x, by = "orig.study.article.DOI")  # update citation counts 
 ### Update done
 
-### Update citation counts for Curate Science dataset
-#cursci_citations <- cr_citation_count(doi = curate_science$orig.study.article.DOI)  
-#saveRDS(cursci_citations, "curate_science_crossref_citation_count_downloaded_2020-10-20.Rds")
+
 
 # extract data from crossref data to be merged with curate_science
 rep.years <- as.numeric(str_extract(curate_science$rep.study.number, "[[:digit:]]+"))
 curate_science$rep.publ.year <- rep.years
 curate_science$rep.publ.year[curate_science$rep.publ.year<1000] <- NA
 
-#citations <- unlist(lapply(cursci_orig_cr, function(x) ifelse(is.null(x$`is-referenced-by-count`[1]), NA, x$`is-referenced-by-count`[1])))
+# citations <- unlist(lapply(cursci_orig_cr, function(x) ifelse(is.null(x$`is-referenced-by-count`[1]), NA, x$`is-referenced-by-count`[1])))
 cr_numberofreps <- nrow(curate_science)  # Make a note of the number of replications in the dataset before non-matches are removed.
 cr_numberoforiginals <- sum(unique(curate_science$orig.study.article.DOI) != "NA")  # Count number of original articles before non-matches are removed.
 years <- unlist(lapply(cursci_orig_cr, function(x) ifelse(is.null(x$`issued`$`date-parts`[1]), NA, x$`issued`$`date-parts`[1])))
@@ -106,7 +119,8 @@ RVdata <- RVdata[-which(RVdata$target.effect == "sex difference in implicit math
 RVdata <- RVdata[order(-RVdata$RV),]
 RVdata$order <- 1:nrow(RVdata)
 
-
+# Delete vestigials
+rm(dups, cr.df, cursci_citations, cursci_orig_cr, x, doi, rep.years, years, delete)
 
 
 #### Analyses ####
@@ -178,7 +192,7 @@ set.seed(20202010)
 ### Mann-Whitney U test
 wilcox.test(cs.n, pbul.n)
 ### Plot 
-p.n <- ggplot(data = pbul.df)  +
+p.n <- ggplot(data = pbul.cit.df)  +
   geom_density(aes(x = x_n^(1/3)), fill = "red", alpha = 0.5, na.rm = T, adjust = 0.5) + 
   geom_density(data = as.data.frame(cs.n^(1/3)), aes(x = cs.n^(1/3)), fill = "blue", alpha = 0.5, na.rm = T, adjust = 0.5) +
   theme_classic(base_size = 16) + 
@@ -214,7 +228,7 @@ p.RV <- ggplot(data = pbul.cit.df)  +
 # vdas <- rbind(c.vda, cy.vda, n.vda, RV.vda)
 # rownames(vdas) <- c("c", "cy", "n", "RV")
 # saveRDS(vdas, file = "vda_values.Rds")
-vdas <- readRDS("vda_values.Rds")
+vdas <- readRDS("vda_values.Rds")  # Load saved vda values
 
 ## Combine plots into grid for manuscript
 

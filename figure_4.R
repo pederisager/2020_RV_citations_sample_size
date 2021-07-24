@@ -8,7 +8,7 @@ repVal <- function(c, y, n) {
   ## y = years since publication
   ## n = sample size
   
-  RV <- (c/(y+1))*1/(n)  # RV formula based on equation 4
+  RV <- (c/(y+1))*1/(n)  # RV formula based on equation 5
   RV
 }
 
@@ -38,9 +38,9 @@ ggplot(df.heat, aes(x = n, y = C/Y, z = rv)) +
                                             raster = F,
                                             nbin = 16, 
                                             frame.colour = "black", ticks.colour = "black")) +
-  theme_bw(base_size = 14) + 
+  theme_bw(base_size = 16) + 
   theme(axis.text=element_text(size=12)
   ) +
   scale_x_continuous(limits = c(11, 60), expand = c(0, 0)) +
   scale_y_continuous(limits = c(0.1, 6), expand = c(0, 0)) +
-  labs(x = "Sample size", y = "Average yearly citation rate", fill = "RV", title = "Distribution of replication value over input parameters")
+  labs(x = "Sample size", y = "Average yearly citation rate", fill = expression("RV"["Cn"]), title = "Distribution of replication value over input parameters")
