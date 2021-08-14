@@ -1,0 +1,167 @@
+---
+title: 'Supplementary material 1: Updating replication value once a replication is conducted'
+author: "Peder M. Isager, Anna van 't Veer, Daniël Lakens"
+date: "8/14/2021"
+bibliography: ["RVcn_bibliography.bib"]
+output:
+  pdf_document: default
+  html_document: default
+
+header-includes   :
+- \usepackage{caption}
+- \captionsetup[figure]{labelformat=empty}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(digits = 3)
+
+library(tidyverse)
+setwd("C:/Users/peder/Dropbox/jobb/PhD/Projects/2020_RV_citations_sample_size") # Replace with whatever path is appropriate on local system
+
+#unzip(zipfile = "Burns_et_al_data.zip", exdir = "Burns_etal_data")
+#source("Burns_etal_data/Final_Analsis_Code_Modified.R")
+#setwd("C:/Users/peder/Dropbox/jobb/PhD/Projects/2020_RV_citations_sample_size/sm1_stroop_example/")  # Change dir back after running Burns_etal script.
+
+
+#### Replication value for study 2 in Stroop (1935) #### 
+
+citations <- 9423  # Based on crossref citation entry for DOI (10.1037/h0054651). Timestamp: 2018-11-07 11:53:40 CET
+years_since_pub <- 2021 - 1935
+n <- 100
+
+
+# Estimate repeated measures correlation "r" using data from a close replication of Stroop (1935)
+df.stroop <- read.csv("sm1_stroop_example/Burns_etal_data/Data/cleanData.csv")  # Grab cleaned data from https://osf.io/yw7d9/ by downloading data (https://osf.io/3fu7q/) and R script (https://osf.io/ub46a/), and running data cleaning from their analysis script.
+df.stroop <- subset(df.stroop, cond %in% c("neutral", "incongruent"))  # Keep oncly conditions relevant for Stroop (1935) study 2
+means.stroop <- df.stroop %>% group_by(cond, ID) %>% summarize(mean_rt = mean(rt))  # Calculate mean reaction time for each subject in each condition
+sd1 <- sd(means.stroop$mean_rt[means.stroop$cond=="incongruent"])  # Calculate standard deviation for mean scores on incongruent trials
+sd2 <- sd(means.stroop$mean_rt[means.stroop$cond=="neutral"])  # Calculate standard deviation for mean scores on neutral trials
+sddiff <- sd(means.stroop$mean_rt[means.stroop$cond=="incongruent"] - means.stroop$mean_rt[means.stroop$cond=="neutral"])  # calculate standard error of the difference between mean scores
+r <- (sd1^2 + sd2^2 - sddiff^2) / (2*sd1*sd2)  # Calculate repeated measures correlation based on Lakens (2013). See supplementary materials 1 in this manuscript for details.
+
+# Calculate CIs around r (see Bohrenstein ch. 6 for equations)
+Z <- (1/2)*log((1+r)/(1-r))
+Z_CIu <- Z + qnorm(1-.05/2) * sqrt(1/(100-3))
+r_CIu <- (exp(2*Z_CIu)-1) / (exp(2*Z_CIu)+1)
+Z_CIl <- Z - qnorm(1-.05/2) * sqrt(1/(100-3))
+r_CIl <- (exp(2*Z_CIl)-1) / (exp(2*Z_CIl)+1)
+
+a <- 2 # Each subject contributes data to two conditions
+n_adjusted <- (n*a)/(1-r)  # Adjust sample size based on design. See supplementary materials 1 for further details.
+
+se = 1/sqrt(n_adjusted)  # calculate variance
+RV_stroop_orig <- citations / (years_since_pub+1) * se  # Calculate replication value for Stroop (1935) study 2
+print(paste("Stroop (1935) study 2 has an estimated replication value of", round(RV_stroop_orig, 3)))
+
+# Inferential statistics for Stroop (1935) Study 2 (NC-NCWd completion time difference)
+n <- 100
+mean.nc <- 63.3
+sd.nc <- 10.8
+mean.ncwd <- 110.3
+sd.ncwd <- 18.8
+r.within <- r  # Use repeated measures correlation from close replication as estimate
+mean.diff <- (mean.ncwd - mean.nc)
+sd.diff <- sqrt(sd.nc^2 + sd.ncwd^2 - 2 * r.within * sd.nc * sd.ncwd)
+
+d.rm <- mean.diff / sqrt(sd.nc^2 + sd.ncwd^2 - 2 * r.within * sd.nc * sd.ncwd) * sqrt(2*(1-r))
+ci.95 <- -qt(0.05/2, df = 99)*(sd.diff/sqrt(n))
+mean.ci.u <- mean.diff + ci.95
+mean.ci.l <- mean.diff - ci.95
+t <- d.rm * sqrt(n)
+p <- pt(t, df = n-1, lower.tail = FALSE)
+bf <- BayesFactor::ttest.tstat(t = t, n1 = n, rscale = sqrt(2)/2)
+
+
+
+#### Stroop (1935) replications reported in Verhaegen (1998), excluding non-close replications ####
+
+names.rep <- c("Cohn", "Hartman", "Houx 1", "Houx 2", "Kieley 1", "Kieley 2", "Kwong", "Li", "Panek 1", "Panek 2", "Salthouse", "Salthouse_Meinz", "Spieler", "Weir 1", "Weir 2", "Stroop")  # Study identifiers based on first author name and study number in Verhaeghen & De Meersman (1998) table 1.
+pub.year <- c(1984, 1991, 1993, 1993, 1997, 1997, 1995, 1996, 1984, 1984, 1996, 1995, 1996, 1997, 1997, 1935)  # Publication years of included replications
+n.rep <- c(20, 44, 42, 18, 16, 45, 82, 35, 19, 31, 40, 49, 27, 17, 24, 100)  # Sample size (young participants) of included replications, as reported in Verhaeghen & De Meersman (1998) table 1.
+stroop_reps <- data.frame("study" = names.rep, "pub_year" = pub.year, "n" = n.rep)  # gather variables in a data frame
+stroop_reps <- arrange(stroop_reps, pub.year)  # sort replications by publication year
+stroop_reps$n_adj <- (stroop_reps$n*a)/(1-r)  # Adjust sample size based on design. See supplementary materials 1 for further details. 
+# Calculate replication from fixed-effect meta-analytic variance estimate (see supplementary materials 1 for details.) 
+# Replication value is calculated sequentially by adding the variance weight from each consequetive replication to the total meta-analytic estimate.
+stroop_reps$rv_seq <- citations / (years_since_pub+1) * (sapply(1:length(stroop_reps$n_adj), function(x) {  
+  v <- 1/(stroop_reps$n_adj[1:x])
+  w <- 1/v
+  sqrt(1/sum(w))
+  }))
+
+stroop.p <- ggplot(data = stroop_reps, aes(x = 1:nrow(stroop_reps), y = rv_seq, label = study)) + 
+  geom_line() + xlim(0, 17) + 
+  geom_text(angle = 25, hjust = "left", size = 3) + 
+  theme_classic() +
+  theme(tex = element_text(size = 18)) +
+  labs(x = "Replications ordered by publication year", y = expression("RV"["fixed"]))
+```
+
+
+# Calculating replication value for a meta-analytic estimate
+
+When replications of a replication target have already been performed, we will usually want to combine the information from these replications in our replication value estimate. Similarly, once we have replicated a chosen replication target, we may want to combine the information from the original study and our replication to consider if further replication is warranted, or if it would be better to focus new resources on a different replication target. A straight-forward way to calculate *RV~Cn~* based on combined evidence from several studies would be to calculate the meta-analytic variance estimate for the studies. 
+
+For a fixed effects meta-analysis, *RV~Cn~* can be estimated in the following way:
+
+\begin{equation}
+  \tag{SM1-1}
+  RV_{fixed}=\frac{w(C_{S})}{Y+1}SE_{M}=\frac{w(C_{S})}{Y+1}\sqrt{\frac{1}{\sum_{i=1}^{k} W_{i}}}=\frac{w(C_{S})}{(Y+1)\sqrt{\frac{1}{\sum_{i=1}^{k} W_{i}}}}
+  \label{eq:SM1-1}
+\end{equation}
+
+where *RV~fixed~* is the estimate of replication value, *C* is the citation count of the original article reporting on the target claim, *Y* is the number of years since the original article was published, *SE~M~* is the standard error of the summary effect for the fixed effect meta-analysis [see @Borenstein2009, equations 11.4 and 11.5], *W* is the inverse variance weight of each included study [see @Borenstein2009, equation 11.2], and *i* denotes a particular study in the set *k* included in the *RV~fixed~* estimate.
+
+Equation SM1-1 can still be used for calculating *RV~fixed~* whether or not we want to assume that the standard deviation is equal across all candidates and use only sample size to estimate the standard error for each study. When we make the assumption of equal standard deviations, the equation stays identical, but we must change the variance estimate provided to the inverse variance weight W [see @Borenstein2009, equation 11.2] from $\frac{\sigma^2}{n}$ to $\frac{1}{n}$. The inverse variance weight then simply becomes the sample size, since $\frac{1}{Var}=\frac{1}{\frac{1}{n}}=n$. 
+
+In many situations, however, it would be more appropriate to calculate the variance for a random effects meta-analysis, because there is often true effect size heterogeneity which will influence the variance estimate [@Borenstein2009, chapter 13]^[However, when we only allow close replications into the meta-analytic estimate, we only expect theoretically close effects to be included [@LeBel2018], which should imply low effect size heterogeneity. This means that, in practice, the difference between RV estimates based on fixed-effects and random-effects models should be low whenever close replication results are combined.]. For a random effects meta-analysis, *RV~fixed~* can be estimated in the following way:
+
+\begin{equation}
+  \tag{SM1-2}
+  RV_{fixed}=\frac{w(C_{S})}{Y+1}SE_{M*}=\frac{w(C_{S})}{Y+1}\sqrt{\frac{1}{\sum_{i=1}^{k} W_{i}*}}=\frac{w(C_{S})}{(Y+1)\sqrt{\frac{1}{\sum_{i=1}^{k} W_{i}*}}}
+  \label{eq:SM1-2}
+\end{equation}
+
+where *RV~rand~* is the estimate of replication value, *C* is the citation count of the original article reporting on the target claim, *Y* is the number of years since the original article was published, *SE~M~\** is the standard error of the summary effect for the mixed effect meta-analysis [see @Borenstein2009, equation 12.8 and 12.9], *W* is the inverse variance weight of each study including $\tau^2$ [see @Borenstein2009, 2013, equation 12.6, 12.7], and *i* is a given study in the set *k* included in the *RV~rand~* estimate.
+
+While the random effects model is theoretically straightforward to calculate for a set of studies, there are two practical obstacles to using random effects variance in the estimate of *RV~Cn~*: 
+
+1. In addition to variance estimates, which can be derived using only the sample size, we need to determine the effect sizes of interest in order to calculate the between-study heterogeneity estimate $\tau^2$ [see @Borenstein2009, equation 12.2 and 12.3].
+1. We need a sufficient sample of studies in order to reliably estimate $\tau^2$ [@Borenstein2009, page 84]. 
+
+In addition to the practical difficulties of deriving random effects precision estimates, it can also be difficult to determine which among a set of findings should be combined in a meta-analysis [@Sharpe1997, @Esteves2017]. Because closely related findings are rarely linked to each other in meta-data, identifying such findings will currently require manual inspection by the replicating researcher. However, platforms like CurateScience could perhaps make automatic identification of replications possible in the future [@LeBel2018]. 
+
+One might reasonably ask whether the citation count of all replications should also be combined in the meta-analytic replication value estimate. On the one hand, more studies entail a larger literature, which in theory could increase the overall impact and visibility of the claims studies, and perhaps citation count would reflect such increases. However we regard it as likely that replication and original studies are usually cited together, or at least for similar reasons, which means that each replication’s citation count provides highly overlapping information about the underlying value of the replication target. We therefore only include the citation count of the original study in the definitions of *RV~fixed~*/*RV~rand~*, though we recognize the appropriateness of this choice is a largely unresolved empirical question. 
+
+
+
+
+# Example: Applying *RV~fixed~* to studies on the Stroop effect
+
+The R script containing the data material and exact calculations used to produce the numbers reported in this section can be found on OSF (https://osf.io/e35pu/). 
+
+Suppose we would like to calculate *RV~fixed~* for the classic Stroop effect [@Stroop1935]. The Stroop effect is an extremely impactful finding, and one of the most cited publications in psychology. On the other hand, the original results have been consistently replicated in many research efforts [e.g., @MacLeod1991; @Ebersole2016; @Verhaeghen1998, not to mention psychology classrooms around the world. Considering whether to, at this point, commit further resources to replicating the Stroop effect, we need to consider our uncertainty about the Stroop effect given the total weight of evidence from both the original study as well as from replications.
+
+As of 2021-08-14, the citation count of the original Stroop effect [@Stroop1935] was `citations` according to Crossref), and the age of the publication at that time was 83 years. There are three separate studies reported in @Stroop1935. Study 2 directly tests the well-known interference effect of word meaning on color naming that most later replications have been based on [@MacLeod1991; @Ebersole2016]. 
+
+Study 2 includes data from `r n` participants, but we should adjust this sample size for the fact that Stroop [@Stroop1935, Study 2] is a within-subject design (see [supplementary material 2](https://osf.io/pz5qa/)). Unfortunately, like many repeated measures experiments, Stroop does not report the correlation between dependent measures, which is necessary to accurately calculate the standard error and effect size of a repeated measures experiment [@Dunlap1996]. However, we can estimate the within-subject correlation from data generated by a similar Stroop paradigm. For example, a close replication of the original Stroop paradigm was performed by Burns et al. [@Burns2019]. For the conditions relevant for the replication of @Stroop1935, Study 2, the within-subject correlation in this study is `r r`, 95%CI[`r r_CIl`, `r r_CIu`]. With this correlation estimate we can convert the within-subject effect size to a corresponding between-subject effect size that would have the same amount of precision. The adjusted sample size is (`r n`*2)/(1-`r r`) = `r n_adjusted` (see [supplementary material 2](https://osf.io/pz5qa/), equation SM2-1). The replication value for Stroop [@Stroop1935, Study 2] thus becomes:
+
+\begin{equation}
+\tag{SM1-3}
+  \frac{w(C_{S})}{Y+1}\times\frac{1}{\sqrt{n}}=\frac{`r citations`}{`r years_since_pub`+1}\times\frac{1}{\sqrt{`r n_adjusted`}}=`r RV_stroop_orig`
+\end{equation}
+
+Suppose we would like to update this replication value estimate after replications of the Stroop effect are performed. A collection of close replications of the original Stroop paradigm can be found in @Verhaeghen1998. Study designs and sample characteristics (within the young group) were similar to @Stroop1935, Study 2 in all but two of the studies reported in this meta-analysis [in two cases, subjects were told to read the words, not name the colors; @Dulaney1994; @Park1996].
+
+We can track change in replication value as replications accumulate by recalculating equation SM1-1 after every successive replication attempt, including in each calculation all replication studies published up until that point. Assuming equal standard deviations, the only parameter changing between successive replications is the sample size. Therefore, replication value will always decrease monotonically under these assumptions^[Monotonic decrease may not hold under different assumptions. For example, if we instead use equation SM1-2 to update replication value, replication value could in theory increase after a replication if the effect size heterogeneity $\tau^2$ increases substantially.]. Figure SM1-1 displays the reduction in replication value with every replication reported in @Verhaeghen1998, in the order by which these replications were published.
+
+```{r SM1-1, fig.cap = "**Figure SM1-1:** Cumulative replication value of the Stroop effect over time, derived by recalculating equation SM1-1 after every successive replication attempt. Studies included are reported in @Verhaeghen1998, table 1, with the exception of @Dulaney1994, and @Park1996.", warning=FALSE, echo=FALSE}
+
+plot(stroop.p)
+```
+
+
+
+\newpage
+# References
