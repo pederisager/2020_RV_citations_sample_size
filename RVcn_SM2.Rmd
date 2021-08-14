@@ -1,0 +1,44 @@
+---
+title: 'Supplementary material 2: Converting within-subjects sample size into between-subjects sample size'
+author: "Peder M. Isager, Anna van 't Veer, Daniël Lakens"
+date: "8/14/2021"
+bibliography: ["RVcn_bibliography.bib"]
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+A statistical limitation that arises when we approximate standard error from sample size alone is that we ignore the statistical design of the studies we intend to compare, which is usually important for accurately estimating the standard error [@Borenstein2009, chapter 8]. As one example, a paired samples *t*-test has better precision for the difference score that is calculated between the two measurements than an independent samples *t*-test, partly because the participants contribute twice as many data points in the paired design, and partly because of within-subject correlation [@Lakens2016]. 
+
+We can attempt to mitigate this violation, however, by converting the sample sizes from within-subject designs into the sample size that would achieve the same precision in a between-subjects design. In a replication candidate set composed of both within-subject and between-subject designs, converting within-subject sample size in this way should increase *RV~Cn~* measurement quality by reducing measurement bias caused by variation in study design.
+
+\begin{equation}
+  \tag{SM2-1}
+  n_{B}=\frac{n_{W}a}{1-\rho}
+\end{equation}
+
+where n~W~ is the sample size of the within-subject design^[Note that we have replaced the capital *N* in @Maxwell2004 with the lowercase *n* used to refer to sample size throughout this article. The two symbols refer to the same entity.], $\rho$ is the within-subject correlation, *a* is the number of groups that each subject contributes data points to, and n~B~ is the estimated sample size that a between-subject study would need to reach the same level of precision. 
+
+The population parameter $\rho$ is usually estimated from the within-subject correlation *r* in the sample. A practical issue is that this value is very rarely reported in published manuscripts. In these cases, it is possible to calculate *r* from summary statistics. For example, if we have access to the *t*-value, Cohens d~average~ [see @Borenstein2009, equation 4.18], and the sample size n~W~, we can calculate *r* by solving for *r* in @Dunlap1996, equation 3:
+
+\begin{equation}
+  \tag{SM2-2}
+  r=\frac{2t^2-d_{average}^2n_{W}}{2t^2}
+\end{equation}
+
+Or, if we have access to the standard error of the difference and the standard error of both groups, we could calculate *r* by solving for *r* in Lakens [see @Lakens2013, equation 8]:
+
+\begin{equation}
+  \tag{SM2-3}
+  r=\frac{SD_{1}^2+SD_{2}^2-S_{diff}^2}{2SD_{1}SD_{2}}
+\end{equation}
+
+
+If we do not have access to these summary statistics or the raw data, we could estimate $\rho$ based on *r* in conceptually similar studies. If there are no realistic reference points for $\rho$ whatsoever, we could potentially consider setting $\rho$ to 0. n~W~ will still receive a correction in this case from being multiplied by *a*. Note however, that this is a very conservative assumption, and unlikely to be realistic in most cases. More importantly, the choice of 0 over any other arbitrary value of $\rho$ is motivated purely by a desire to be conservative in our assumptions about the strength of $\rho$, though it is not clear why one would want to be conservative.
+
+
+# References
