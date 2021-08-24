@@ -14,7 +14,8 @@
 #### set working dir, download necessary files & load packages #### 
 
 library(tidyverse)
-setwd("C:/Users/peder/Dropbox/jobb/PhD/Projects/2020_RV_citations_sample_size/sm2_stroop_example/")
+setwd(dirname(rstudioapi::getSourceEditorContext()$path)) # When opened in Rstudio, sets path to whereever analysis script is stored. Replace with whatever path is appropriate on local system
+
 #unzip(zipfile = "Burns_et_al_data.zip", exdir = "Burns_etal_data")
 #source("Burns_etal_data/Final_Analsis_Code_Modified.R")
 #setwd("C:/Users/peder/Dropbox/jobb/PhD/Projects/2020_RV_citations_sample_size/sm2_stroop_example/")  # Change dir back after running Burns_etal script.
@@ -22,7 +23,7 @@ setwd("C:/Users/peder/Dropbox/jobb/PhD/Projects/2020_RV_citations_sample_size/sm
 
 #### Replication value for study 2 in Stroop (1935) #### 
 
-citations <- 7230  # Based on crossref citation entry for DOI (10.1037/h0054651). Timestamp: 2018-11-07 11:53:40 CET
+citations <- 9423  # Based on crossref citation entry for DOI (10.1037/h0054651). Timestamp: 2018-11-07 11:53:40 CET
 years_since_pub <- 2018 - 1935
 n <- 100
 
@@ -86,7 +87,7 @@ stroop_reps$rv_seq <- citations / (years_since_pub+1) * (sapply(1:length(stroop_
   sqrt(1/sum(w))
   }))
 
-ggplot(data = stroop_reps, aes(x = 1:nrow(stroop_reps), y = rv_seq, label = study)) + 
+stroop.p <- ggplot(data = stroop_reps, aes(x = 1:nrow(stroop_reps), y = rv_seq, label = study)) + 
   geom_line() + xlim(0, 17) + 
   geom_text(angle = 25, hjust = "left", size = 5) + 
   theme_classic() +

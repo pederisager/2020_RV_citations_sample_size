@@ -8,14 +8,13 @@
 
 #### Load dataset and relevant packages, and set working dir #### 
 
-setwd("C:/Users/peder/Dropbox/jobb/PhD/Projects/2020_RV_citations_sample_size/analysis_curate_science/")
+setwd("curate_science_study/")
 library(rcrossref)
 library(tidyverse)
 library(ggpubr)
 library(stringr)
 library(rcompanion)
 library(scales)
-library(rcrossref)
 
 #curate_science <- read.csv("https://raw.githubusercontent.com/eplebel/science-commons/master/CS.rep.table.csv", na.strings = "", stringsAsFactors = FALSE)  # Download latest version of Curate Science data
 #write.csv(x = curate_science, file = "curate_science.csv", row.names = F)  # Save latest version of Curate Science data
@@ -37,8 +36,9 @@ library(rcrossref)
 
 ## Load data
 pbul.df <- readRDS("psybull_meta_data.rds")
-pbul_citations <- readRDS("psych_bulletin_crossref_citation_count_downloaded_2020-10-20.Rds") # Download most recent citation count data
+pbul_citations <- readRDS("psych_bulletin_crossref_citation_count_downloaded_2020-10-20.Rds") # Load most recent citation count data
 names(pbul_citations) <- c("x_doi", "x_crcited")
+pbul_numberofstudies <- nrow(unique(pbul.df[, c("x_study", "x_n")]))  # Count number of studies in dataset.
 
 ## Update citation counts in pbul.df with citation counts in pbul_citations. 
 pbul.df$x_crcited <- NULL
@@ -51,7 +51,7 @@ pbul.df <- left_join(pbul.df, x, by = "x_doi")  # update citation counts in pbul
 ### Update done
 
 ## Calculate replication value
-pbul.df$years_since_pub <- 2019 - pbul.df$x_pubyear  # Years since publication
+pbul.df$years_since_pub <- 2020 - pbul.df$x_pubyear  # Years since publication
 pbul.df$cit_p_year <- pbul.df$x_crcited / pbul.df$years_since_pub  # average number of citations per year
 pbul.df$RV <- pbul.df$cit_p_year * (1/sqrt(pbul.df$x_n))  # RV per record
 pbul.df <- pbul.df[!is.na(pbul.df$RV), ]  # Reduce data to those records for which RV can be calculated (i.e. has info on all input parameters and sample size >4)
@@ -94,8 +94,8 @@ curate_science$rep.publ.year <- rep.years
 curate_science$rep.publ.year[curate_science$rep.publ.year<1000] <- NA
 
 # citations <- unlist(lapply(cursci_orig_cr, function(x) ifelse(is.null(x$`is-referenced-by-count`[1]), NA, x$`is-referenced-by-count`[1])))
-cr_numberofreps <- nrow(curate_science)  # Make a note of the number of replications in the dataset before non-matches are removed.
-cr_numberoforiginals <- sum(unique(curate_science$orig.study.article.DOI) != "NA")  # Count number of original articles before non-matches are removed.
+cr_numberofreps <- nrow(curate_science)  # Count number of replications in the dataset before non-matches are removed.
+cr_numberoforiginals <- length(unique(curate_science$orig.study.number))  # Count number of original articles before non-matches are removed.
 years <- unlist(lapply(cursci_orig_cr, function(x) ifelse(is.null(x$`issued`$`date-parts`[1]), NA, x$`issued`$`date-parts`[1])))
 doi <- unlist(lapply(cursci_orig_cr, function(x) ifelse(is.null(x$`DOI`[1]), NA, x$`DOI`[1]))) 
 cr.df <- data.frame(orig.publ.year = years, orig.study.article.DOI = doi)  
@@ -112,7 +112,7 @@ RVdata <- aggregate(curate_science$orig.N, by=list(orig.DOI=curate_science$orig.
                                                    RV=curate_science$orig.RV, 
                                                    #sum.RV=curate_science$sum.RV, 
                                                    citations=curate_science$orig.citations,
-                                                   y.cit=(curate_science$orig.citations/(2019-curate_science$orig.publ.year))
+                                                   y.cit=(curate_science$orig.citations/(2020-curate_science$orig.publ.year))
 ), FUN=mean)
 names(RVdata)[length(names(RVdata))] <- "sample_size"
 RVdata <- RVdata[-which(RVdata$target.effect == "sex difference in implicit math attitudes"),]  # Removing a duplicate in which the same sample from the same study is testing two different effects. Since our RV only uses sample size, this creates a duplicate, which we remove here. 
@@ -159,8 +159,8 @@ cs.cy.n <- length(unique(RVdata[, c("orig.DOI", "y.cit")])[[2]])
 cs.cy <- unique(RVdata[, c("orig.DOI", "y.cit")])[[2]]
 cs.cy.iqr <- quantile(x = cs.cy, probs = c(.25, .5, .75))
 ### Psychological bulletin data
-pbul.cy.n <- length(pbul.cit.df$x_crcited/(2019-pbul.cit.df$x_pubyear))
-pbul.cy <- pbul.cit.df$x_crcited/(2019-pbul.cit.df$x_pubyear)
+pbul.cy.n <- length(pbul.cit.df$x_crcited/(2020-pbul.cit.df$x_pubyear))
+pbul.cy <- pbul.cit.df$x_crcited/(2020-pbul.cit.df$x_pubyear)
 pbul.cy.iqr <- quantile(x = pbul.cy, probs = c(.25, .5, .75))
 ### Common language effect size 
 set.seed(20202010)
@@ -220,7 +220,7 @@ p.RV <- ggplot(data = pbul.cit.df)  +
   geom_density(aes(x = RV^(1/3), fill = 'red'), alpha = 0.5, na.rm = T, adjust = 0.5) + 
   geom_density(data = as.data.frame(cs.RV^(1/3)), aes(x = cs.RV^(1/3), fill = 'blue'), alpha = 0.5, na.rm = T, adjust = 0.5) +
   theme_classic(base_size = 16) + 
-  labs(x = "Replication value", title = "D") +
+  labs(x = expression(RV[Cn]), title = "D") +
   scale_x_continuous(breaks = c(0, 0.5, 1.0, 1.5, 2.0), labels = c(0, 0.5, 1.0, 1.5, 2.0)^3) +
   scale_fill_manual(name = 'sample', values =c('blue'='blue','red'='red'), labels = c('replicated','comparison'))
 

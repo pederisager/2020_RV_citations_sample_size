@@ -1,6 +1,4 @@
-library(ggplot2)
-library(viridis)
-library(metR)
+
 
 #### define function to calculate RV formula #### 
 repVal <- function(c, y, n) {
@@ -30,11 +28,11 @@ df.heat$rv <- apply(df.heat, 1, function(x) {
 })
 
 
-ggplot(df.heat, aes(x = n, y = C/Y, z = rv)) +  
+fig5 <- ggplot(df.heat, aes(x = n, y = C/Y, z = rv)) +  
   geom_contour_fill(bins = 15) +
   scale_fill_viridis(option="plasma", 
                      breaks = seq(0, 0.8, by = 0.1),
-                     guide = guide_colorbar(barheight = 20, 
+                     guide = guide_colorbar(barheight = 10, 
                                             raster = F,
                                             nbin = 16, 
                                             frame.colour = "black", ticks.colour = "black")) +
@@ -43,4 +41,6 @@ ggplot(df.heat, aes(x = n, y = C/Y, z = rv)) +
   ) +
   scale_x_continuous(limits = c(11, 60), expand = c(0, 0)) +
   scale_y_continuous(limits = c(0.1, 6), expand = c(0, 0)) +
-  labs(x = "Sample size", y = "Average yearly citation rate", fill = expression("RV"["Cn"]), title = "Distribution of replication value over input parameters")
+  labs(x = "Sample size", y = "Average yearly citation rate", fill = expression("RV"["Cn"]), title = "Distribution of replication value over input")
+
+plot(fig5)
