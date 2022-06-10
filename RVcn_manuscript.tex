@@ -5,10 +5,14 @@
 \documentclass[
   english,
   jou,floatsintext]{apa6}
+\title{Replication value as a function of citation impact and sample size}
+\author{Peder Mortvedt Isager\textsuperscript{1}, Anna E. van 't Veer\textsuperscript{2}, \& Daniël Lakens\textsuperscript{1}}
+\date{}
+
+\usepackage{amsmath,amssymb}
 \usepackage{lmodern}
-\usepackage{amssymb,amsmath}
-\usepackage{ifxetex,ifluatex}
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+\usepackage{iftex}
+\ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
@@ -38,7 +42,7 @@
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
   pdftitle={Replication value as a function of citation impact and sample size},
-  pdfauthor={Peder Mortvedt Isager1, Anna E. van `t Veer2, \& Daniël Lakens1},
+  pdfauthor={Peder Mortvedt Isager1, Anna E. van 't Veer2, \& Daniël Lakens1},
   pdflang={en-EN},
   pdfkeywords={replication value, replication, study selection, expected utility, RVcn},
   hidelinks,
@@ -70,6 +74,29 @@
   \let\oldsubparagraph\subparagraph
   \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
 \fi
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 % Manuscript styling
 \usepackage{upgreek}
 \captionsetup{font=singlespacing,justification=justified}
@@ -85,9 +112,9 @@
 
 % Create new environments so endfloat can handle them
 % \newenvironment{ltable}
-%   {\begin{landscape}\begin{center}\begin{threeparttable}}
-%   {\end{threeparttable}\end{center}\end{landscape}}
-\newenvironment{lltable}{\begin{landscape}\begin{center}\begin{ThreePartTable}}{\end{ThreePartTable}\end{center}\end{landscape}}
+%   {\begin{landscape}\centering\begin{threeparttable}}
+%   {\end{threeparttable}\end{landscape}}
+\newenvironment{lltable}{\begin{landscape}\centering\begin{ThreePartTable}}{\end{ThreePartTable}\end{landscape}}
 
 % Enables adjusting longtable caption width to table width
 % Solution found at http://golatex.de/longtable-mit-caption-so-breit-wie-die-tabelle-t15767.html
@@ -112,7 +139,7 @@
   {}{\typeout{Failed to patch title.}}
 \makeatother
 \shorttitle{RV\textasciitilde{}Cn\textasciitilde{}}
-\keywords{replication value, replication, study selection, expected utility, RVcn\newline\indent Word count: 10095}
+\keywords{replication value, replication, study selection, expected utility, RVcn\newline\indent Word count: 10103}
 \usepackage{dblfloatfix}
 
 
@@ -124,30 +151,26 @@
 \pagestyle{fancy}
 \lhead{ISAGER ET AL.}
 \rhead{RV\textsubscript{Cn}}
-\ifxetex
+\ifXeTeX
   % Load polyglossia as late as possible: uses bidi with RTL langages (e.g. Hebrew, Arabic)
   \usepackage{polyglossia}
   \setmainlanguage[]{english}
 \else
-  \usepackage[shorthands=off,main=english]{babel}
+  \usepackage[main=english]{babel}
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
 \fi
-\newlength{\cslhangindent}
-\setlength{\cslhangindent}{1.5em}
-\newenvironment{cslreferences}%
-  {\setlength{\parindent}{0pt}%
-  \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces}%
-  {\par}
-
-\title{Replication value as a function of citation impact and sample size}
-\author{Peder Mortvedt Isager\textsuperscript{1}, Anna E. van `t Veer\textsuperscript{2}, \& Daniël Lakens\textsuperscript{1}}
-\date{}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
 
 
 \authornote{
 
-""
+This work was funded by VIDI grant 452-17-013.
 
-The authors made the following contributions. Peder Mortvedt Isager: Conceptualization, Investigation, Visualization, Writing - Original Draft, Writing - Review \& Editing; Anna E. van `t Veer: Supervision, Writing - Review \& Editing; Daniël Lakens: Conceptualization, Funding acquisition, Investigation, Supervision, Writing - Review \& Editing.
+The authors made the following contributions. Peder Mortvedt Isager: Conceptualization, Investigation, Visualization, Writing - Original Draft, Writing - Review \& Editing; Anna E. van 't Veer: Supervision, Writing - Review \& Editing; Daniël Lakens: Conceptualization, Funding acquisition, Investigation, Supervision, Writing - Review \& Editing.
 
 Correspondence concerning this article should be addressed to Peder Mortvedt Isager, Den Dolech 1, Atlas 9.417, 5600 MB, Eindhoven, The Netherlands. E-mail: \href{mailto:pederisager@gmail.com}{\nolinkurl{pederisager@gmail.com}}
 
@@ -167,13 +190,13 @@ Researchers seeking to replicate original research often need to decide which of
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-After close to a century of repeated reminders that replication studies play an important role in establishing robust scientific knowledge, and following a number of high-profile replications published in the last decade (e.g., Open Science Collaboration, 2015; Hagger et al., 2016; Ranehill et al., 2015; Ritchie, Wiseman, \& French, 2012; Wagenmakers et al., 2016), researchers from many scientific disciplines are increasingly calling for a renewed focus on replication research (Blaszczynski \& Gainsbury, 2019; Button et al., 2013; Heirene, 2021; Murphy, Mesquida, Caldwell, Earp, \& Warne, 2021; Plucker \& Makel, 2021; Sale \& Mellor, 2018; Zwaan, Etz, Lucas, \& Donnellan, 2018). Given the exponential growth of the empirical literature (Bornmann \& Mutz, 2015; Parolo et al., 2015) and the low rates of replication up until this point (Makel, Plucker, \& Hegarty, 2012; Mueller-Langer, Fecher, Harhoff, \& Wagner, 2019), researchers interested in conducting replications of original research will often have to choose which of several replication targets to focus limited resources on. Similarly, funding bodies have to decide which of several proposed replication efforts to direct limited grant money towards, and journals that limit the number of articles they accept for publication might benefit from clearly communicating which replication studies will be accepted. Given that there will often be a large number of replication targets to choose from, and assuming we can distinguish which targets would be most useful to replicate, study selection strategies are needed that will allow stakeholders to transparently discuss and compare the need for replication of candidate targets.
+After close to a century of repeated reminders that replication studies play an important role in establishing robust scientific knowledge, and following a number of high-profile replications published in the last decade (Hagger et al., 2016; e.g., Open Science Collaboration, 2015; Ranehill et al., 2015; Ritchie, Wiseman, \& French, 2012; Wagenmakers et al., 2016), researchers from many scientific disciplines are increasingly calling for a renewed focus on replication research (Blaszczynski \& Gainsbury, 2019; Button et al., 2013; Heirene, 2021; Murphy, Mesquida, Caldwell, Earp, \& Warne, 2021; Plucker \& Makel, 2021; Sale \& Mellor, 2018; Zwaan, Etz, Lucas, \& Donnellan, 2018). Given the exponential growth of the empirical literature (Bornmann \& Mutz, 2015; Parolo et al., 2015) and the low rates of replication up until this point (Makel, Plucker, \& Hegarty, 2012; Mueller-Langer, Fecher, Harhoff, \& Wagner, 2019), researchers interested in conducting replications of original research will often have to choose which of several replication targets to focus limited resources on. Similarly, funding bodies have to decide which of several proposed replication efforts to direct limited grant money towards, and journals that limit the number of articles they accept for publication might benefit from clearly communicating which replication studies will be accepted. Given that there will often be a large number of replication targets to choose from, and assuming we can distinguish which targets would be most useful to replicate, study selection strategies are needed that will allow stakeholders to transparently discuss and compare the need for replication of candidate targets.
 
 In response to this need, there has been an increasing interest in developing quantitative, indicator-based strategies for estimating which targets are most in need of replication (see Isager et al., 2020 for a review). Proposed quantitative strategies tend to focus on different indicators. Field, Hoekstra, Bringmann, and Van Ravenzwaaij (2019) base selection on Bayes Factors, Makel et al. (2012) formulate a selection criterion based on number of citations, Matiasz et al. (2018) devise a strategy based on the number of existing replications of the same target, and so on (see supplementary documents in Isager et al., 2020 for additional examples). Common to all such strategies is that they are all fundamentally measurement instruments. For a quantitative indicator-based strategy to make sense, there must exist some target attribute (e.g., ``replication importance'') that is related to our replication goals, and that can be quantified in a meaningful way. Furthermore, we must assume that the observed indicator(s) of interest (Bayes factor, citation count, number of replications, etc.) is somehow a valid and accurate measure of the target attribute (Borsboom, Mellenbergh, \& van Heerden, 2004).
 
 So far there has been little formal analysis of the measurement assumptions underlying proposed study selection indicators. For any given indicator it is often not made explicit (1) what goal we are working towards, (2) how that goal is related to the target attribute we are trying to measure, and (3) how well we are able to measure that target attribute using the proposed indicator. This makes validation of proposed study selection strategies challenging; it is difficult to say whether a strategy works as intended if it is not first made clear how the strategy is intended to work. To examine the quality of a given indicator-based strategy, stakeholders must therefore specify the goal of replication, formalize how the goal can be achieved by selecting studies based on the target attribute(s), and specify the measurement model that connects the target attribute(s) to our measured indicator(s).
 
-The aim of this article is to address the need for measurement models by demonstrating how important measurement assumptions could be worked out and reported for a particular quantitative indicator. We begin by clearly stating the goal we want our study selection strategy to achieve, and the target attribute relevant for achieving this goal (which has been worked out in a previous article; Isager et al., 2020). We then propose a quantitative indicator to measure the target attribute. As part of this process, we discuss the various assumptions that must be met for the indicator to work as intended, and we show how these assumptions lead to observational predictions that let us test the validity of the proposed indicator. We are not advocating that the indicator we propose should be used for study selection without further validation of its usefulness, nor are we claiming that it is superior to already proposed study selection strategies.
+The aim of this article is to address the need for measurement models by demonstrating how important measurement assumptions could be worked out and reported for a particular quantitative indicator. We begin by clearly stating the goal we want our study selection strategy to achieve, and the target attribute relevant for achieving this goal {[}which has been worked out in a previous article; Isager et al. (2020){]}. We then propose a quantitative indicator to measure the target attribute. As part of this process, we discuss the various assumptions that must be met for the indicator to work as intended, and we show how these assumptions lead to observational predictions that let us test the validity of the proposed indicator. We are not advocating that the indicator we propose should be used for study selection without further validation of its usefulness, nor are we claiming that it is superior to already proposed study selection strategies.
 
 \hypertarget{the-target-attribute-of-replication-study-selection.}{%
 \section{The target attribute of replication study selection.}\label{the-target-attribute-of-replication-study-selection.}}
@@ -186,7 +209,7 @@ The first step in working out the measurement assumptions of a replication study
   \label{eq:1}
 \end{equation}
 
-If we further define value as ``value of being correct about the truth status of a claim'', and uncertainty as ``the probability of being incorrect about the truth status of a claim'', then we can express replication value more concretely as the product of value and uncertainty:
+If we further define value as ``value of being correct about the truth status of a claim,'' and uncertainty as ``the probability of being incorrect about the truth status of a claim,'' then we can express replication value more concretely as the product of value and uncertainty:
 
 \begin{equation} 
   \tag{2}
@@ -201,16 +224,16 @@ If we are not willing to define uncertainty in terms of probability, we would ne
 
 To create an indicator that is useful for replication study selection, we must ensure that the indicator is valid for measuring the target attribute, and that it measures the target attribute in a reliable and unbiased way. To accurately estimate replication value stakeholders will thus need to find valid, reliable and unbiased operationalizations of value and uncertainty. Following Isager (2020), we consider an indicator to be \emph{valid} for measuring replication value if (a) the attribute replication value exists and (b) replication value is d-connected to the indicator (i.e., the two variables are joined by an unblocked path in the causal model that describes their true relationship; see fine point 6.1 in Hernán \& Robins, 2020).
 
-Following the APA Dictionary of Psychology, we consider an indicator to be a \emph{reliable} measure of replication value if quantitative estimates of replication value are free of random error (``Reliability APA Dictionary of Psychology,'' n.d.). For most measurement instruments, complete freedom from random error is unattainable, and reliability is thus a matter of degree. In practice, we will have to decide how reliable an indicator should be before we can use it for replication study selection.
+Following the APA Dictionary of Psychology, we consider an indicator to be a \emph{reliable} measure of replication value if quantitative estimates of replication value are free of random error ({``Reliability \textendash{} {APA Dictionary} of {Psychology},''} n.d.). For most measurement instruments, complete freedom from random error is unattainable, and reliability is thus a matter of degree. In practice, we will have to decide how reliable an indicator should be before we can use it for replication study selection.
 
-We consider an indicator to be an \emph{unbiased} measure of replication value if indicator rank-order estimates do not systematically diverge from the true rank-order difference in replication value between the claims being considered (Isager et al., 2020; ``Test bias APA Dictionary of Psychology,'' n.d.). It matters less whether absolute replication value is over/under-estimated by the same amount for all candidates in a set of replication targets, since only relative rank-order replication value within the set matters for answering ``which of the candidates \emph{in this set} would I increase expected utility the most by replicating?''. Like reliability, bias is a matter of degree.
+We consider an indicator to be an \emph{unbiased} measure of replication value if indicator rank-order estimates do not systematically diverge from the true rank-order difference in replication value between the claims being considered (Isager et al., 2020; {``Test bias \textendash{} {APA Dictionary} of {Psychology},''} n.d.). It matters less whether absolute replication value is over/under-estimated by the same amount for all candidates in a set of replication targets, since only relative rank-order replication value within the set matters for answering ``which of the candidates \emph{in this set} would I increase expected utility the most by replicating?'' Like reliability, bias is a matter of degree.
 
-The validity, reliability and bias of an indicator combine to form the measurement \emph{quality} of the indicator (quality is often referred to as ``validity'' in practice, but that term refers to something more specific here; Borsboom et al., 2004). For an indicator of replication value to be useful for replication study selection, it must have high measurement quality. That is, it must be valid \emph{and} reliable \emph{and} unbiased\footnote{Formally, we might say that a high-quality indicator implies high mutual information (DeDeo, 2018) between expected utility gain, replication value, and the indicator we use to estimate replication value.}.
+The validity, reliability and bias of an indicator combine to form the measurement \emph{quality} of the indicator {[}quality is often referred to as ``validity'' in practice, but that term refers to something more specific here; Borsboom et al. (2004){]}. For an indicator of replication value to be useful for replication study selection, it must have high measurement quality. That is, it must be valid \emph{and} reliable \emph{and} unbiased\footnote{Formally, we might say that a high-quality indicator implies high mutual information (DeDeo, 2018) between expected utility gain, replication value, and the indicator we use to estimate replication value.}.
 
 \hypertarget{operationalizing-an-indicator-of-replication-value.}{%
 \section{Operationalizing an indicator of replication value.}\label{operationalizing-an-indicator-of-replication-value.}}
 
-Many replication value indicators have already been proposed. Of these, most focus exclusively on either the value- or the uncertainty-side of equation 2. Some suggested indicators take both value and uncertainty into account (Isager et al., 2020, supplementary materials), but suffer from at least one of two problems. In some cases, indicators are operationalized in obviously problematic ways. For example, if an indicator uses p-values in their operationalization of uncertainty (e.g., \url{https://osf.io/x73rk/}) it is not possible to differentiate between ambiguous statistical evidence (high uncertainty) and strong evidence for the null (low uncertainty; Field et al., 2019). In other cases, indicators depend on information that is not easily available in practice (such as whether the claim studied is considered ``surprising''; \url{https://osf.io/v8nkd/}). Indicators that are difficult to calculate will be difficult to use and to validate, since validation depends on our ability to collect data about the indicator. For these reasons we here propose a novel quantitative indicator of replication value rather than analyze an existing indicator. However, we emphasize that working out the goals and assumptions of already proposed indicators would also be a highly worthwhile exercise.
+Many replication value indicators have already been proposed. Of these, most focus exclusively on either the value- or the uncertainty-side of equation 2. Some suggested indicators take both value and uncertainty into account (Isager et al., 2020, supplementary materials), but suffer from at least one of two problems. In some cases, indicators are operationalized in obviously problematic ways. For example, if an indicator uses p-values in their operationalization of uncertainty (e.g., \url{https://osf.io/x73rk/}) it is not possible to differentiate between ambiguous statistical evidence (high uncertainty) and strong evidence for the null {[}low uncertainty; Field et al. (2019){]}. In other cases, indicators depend on information that is not easily available in practice (such as whether the claim studied is considered ``surprising''; \url{https://osf.io/v8nkd/}). Indicators that are difficult to calculate will be difficult to use and to validate, since validation depends on our ability to collect data about the indicator. For these reasons we here propose a novel quantitative indicator of replication value rather than analyze an existing indicator. However, we emphasize that working out the goals and assumptions of already proposed indicators would also be a highly worthwhile exercise.
 
 We propose to operationalize the value of a claim as a function of the \emph{citation count of the original paper in which the claim is reported}. We propose to operationalize the uncertainty of the claim before replication as a function of the \emph{sample size of the replication target study (or studies)}. The operationalized indicator of replication value thus becomes:
 
@@ -228,23 +251,23 @@ In what follows, we provide a rationale for the choice of this indicator, define
 \hypertarget{citation-count-as-an-indicator-of-value}{%
 \subsection{Citation count as an indicator of value}\label{citation-count-as-an-indicator-of-value}}
 
-We define the value of a claim as the stakes involved in decision outcomes based on the claim. Suppose a mining company is considering whether to establish a new mine. Research suggests ``there is gold in them there hills''. If the claim is \emph{correct} and the company chooses to believe it, the new mine will turn a huge profit. If the claim is \emph{false} and the company chooses to believe it, the mine will be a complete waste of resources. Thus, the value of the claim ``there is gold in them there hills'' depends on the interaction between the decisions we make based on the claim and the truth status of the claim, which will determine the decision outcome. In other words, value is the expected utility of being correct about the truth status of the claim (relative to the value of being wrong). Value is usually related to the impact of the claim in science and society. A claim may be impactful for many reasons. Scientific claims can be used to build theories and research lines, transform clinical treatment, guide education, inform public policy, etc. The potential benefits of such applications of scientific claims will depend on the truth status of the claim. Consider the claim ``naltrexone is an effective treatment for drug craving''. If true, this could have a huge impact on addiction treatment policy. Because the stakes are high when applying this claim (e.g., the health and safety of drug dependent patients) the value of having accurate knowledge about the claim is high. Formally, we could treat value as a formative attribute constructed from multiple forms of impact. Whenever we state that a claim is valuable we usually mean that the claim has been impactful in one or several ways. Finding a valid measure of value thus entails operationalizing one or more of these impact attributes. Stakeholders can differ in how they operationalize these attributes, depending on what goal(s) they value.
+We define the value of a claim as the stakes involved in decision outcomes based on the claim. Suppose a mining company is considering whether to establish a new mine. Research suggests ``there is gold in them there hills.'' If the claim is \emph{correct} and the company chooses to believe it, the new mine will turn a huge profit. If the claim is \emph{false} and the company chooses to believe it, the mine will be a complete waste of resources. Thus, the value of the claim ``there is gold in them there hills'' depends on the interaction between the decisions we make based on the claim and the truth status of the claim, which will determine the decision outcome. In other words, value is the expected utility of being correct about the truth status of the claim (relative to the value of being wrong). Value is usually related to the impact of the claim in science and society. A claim may be impactful for many reasons. Scientific claims can be used to build theories and research lines, transform clinical treatment, guide education, inform public policy, etc. The potential benefits of such applications of scientific claims will depend on the truth status of the claim. Consider the claim ``naltrexone is an effective treatment for drug craving.'' If true, this could have a huge impact on addiction treatment policy. Because the stakes are high when applying this claim (e.g., the health and safety of drug dependent patients) the value of having accurate knowledge about the claim is high. Formally, we could treat value as a formative attribute constructed from multiple forms of impact. Whenever we state that a claim is valuable we usually mean that the claim has been impactful in one or several ways. Finding a valid measure of value thus entails operationalizing one or more of these impact attributes. Stakeholders can differ in how they operationalize these attributes, depending on what goal(s) they value.
 
 Here we propose to focus on scientific impact, and operationalize impact in terms of citation count, which is generally considered a valid indicator of scientific impact (Aksnes, Langfeldt, \& Wouters, 2019). Scientific impact can be roughly defined as the impact of a claim on future research decisions (such as whether to run a follow-up study, build on a previous finding, etc.). If we can assume that researchers tend to cite articles as support for important research decisions, then citation count will be sensitive to variation in value that is caused by variation in scientific impact (figure \ref{fig:1}). Based on comprehensive reviews of the literature on citation behavior (Aksnes et al., 2019; Bornmann \& Daniel, 2008) and empirical studies of the relationship between citation count and perceived scientific impact by researchers (Ioannidis, Boyack, Small, Sorensen, \& Klavans, 2014; Radicchi, Weissman, \& Bollen, 2017), we consider this assumption to be plausible in many fields of science. By definition, it then follows that the number of citations of an article is a valid measure of the perceived value of the claims in that article (Isager, 2020). Citation count also has several other desirable measurement properties. Its interpretation is relatively straight-forward. A meticulous record of citation count is kept by many bibliometric sources, which means that reliability of the count across sources can be studied (Martín-Martín, Orduna-Malea, Thelwall, \& Delgado López-Cózar, 2018). Bibliometric recordkeeping also means that citation counts can be obtained with little effort in any scientific discipline, which is crucial for being able to utilize citation count for study selection in practice.
 
 \begin{figure}
 \centering
 \includegraphics{figure_1.png}
-\caption{\textbf{Figure 1:} Proposed causal relationship between \emph{value} and \emph{citation count} (\emph{citation count} is outlined by a square to signal it is observable). The figure can be interpreted as a directed acyclic graph model, where `value' and `citation count' are d-connected through `scientific impact', and all other variables act as independent noise factors on this relationship. Yellow-colored variables represent those we want information about. Dashed circles represent variables d-separated from `citation count', which we want to but do not have knowledge about. Since they are unmeasured causes of `value' they also act as noise factors by distorting the relationship between \emph{value' and }citation count\emph{. Grey-colored variables represent noise factors that influence }citation count* but are d-separated from \emph{value}. \emph{Additional sources of impact} refer to any additional non-confounding causes of \emph{value} that we could think of (the unmeasured attributes U traditionally used in causal graph models). Absence of a causal arrow between any two variables in the model implies the strong assumption that there is no causal relationship between these variables. \label{fig:1}}
+\caption{\textbf{Figure 1:} Proposed causal relationship between \emph{value} and \emph{citation count} (\emph{citation count} is outlined by a square to signal it is observable). The figure can be interpreted as a directed acyclic graph model, where `value' and `citation count' are d-connected through `scientific impact,' and all other variables act as independent noise factors on this relationship. Yellow-colored variables represent those we want information about. Dashed circles represent variables d-separated from `citation count,' which we want to but do not have knowledge about. Since they are unmeasured causes of `value' they also act as noise factors by distorting the relationship between \emph{value' and }citation count\emph{. Grey-colored variables represent noise factors that influence }citation count* but are d-separated from \emph{value}. \emph{Additional sources of impact} refer to any additional non-confounding causes of \emph{value} that we could think of (the unmeasured attributes U traditionally used in causal graph models). Absence of a causal arrow between any two variables in the model implies the strong assumption that there is no causal relationship between these variables. \label{fig:1}}
 \end{figure}
 
 However, citation count is clearly an imperfect indicator of value. First, citation count is not considered a very good measure of other sources of impact stakeholders value, such as societal or clinical impact. Impact on these dimensions is less likely to generate citations from articles published in scientific outlets listed in major bibliometric databases (Aksnes et al., 2019; Eck, Waltman, Raan, Klautz, \& Peul, 2013). Consequently, a traditional citation count metric will likely not be sensitive to variation in value that is caused by variation in these dimensions of impact (see dashed circles in figure \ref{fig:1}). When these other sources of impact are the most important to our overall definition of value, citation count is going to be a poor measure of value (which, by extension, will lead to poor estimates of replication value).
 
 Second, even in cases where scientific impact is of primary interest, articles are cited for a myriad different reasons that need not have anything to do with the scientific impact of claims put forward in them. Non-relevant influences on citation count include (but are not limited to) the time of publication, the bibliometric source that is doing the counting, arbitrary citation conventions within scientific fields, the language in which an article is written, reputation of article authors, preference for citing personal acquaintances, bandwagon effects, self-citations to increase academic standing, etc. (Aksnes et al., 2019; Bornmann \& Daniel, 2008). To the extent that such factors are independent of article impact, they act as random noise factors that reduce the reliability of citation count for measuring scientific impact and value (see grey circles in figure \ref{fig:1}).
 
-It is worthwhile to consider whether noise factors could be controlled to increase reliability of the measurement. In some cases this will be challenging. For example, while it might be possible to classify whether citations occured due to arbitrary citation conventions, citations would need to be manually classified for each replication target (though see Nicholson et al., 2021 for an example of innovations in citation classification). However, three common and substantial sources of noise could likely be corrected for or held constant to improve the reliability of citation counts for measuring impact; the age of the article (Bornmann \& Daniel, 2008; Wang, Song, \& Barabási, 2013), the source of the citation count (Martín-Martín et al., 2018), and the research field the target claims are part of (Waltman \& van Eck, 2013).
+It is worthwhile to consider whether noise factors could be controlled to increase reliability of the measurement. In some cases this will be challenging. For example, while it might be possible to classify whether citations occured due to arbitrary citation conventions, citations would need to be manually classified for each replication target (though see Nicholson et al., 2021 for an example of innovations in citation classification). However, three common and substantial sources of noise could likely be corrected for or held constant to improve the reliability of citation counts for measuring impact; the age of the article (Bornmann \& Daniel, 2008; D. Wang, Song, \& Barabási, 2013), the source of the citation count (Martín-Martín et al., 2018), and the research field the target claims are part of (Waltman \& van Eck, 2013).
 
-Replication can only increase the expected utility of research decisions that have not yet been made. Therefore, we specifically want to know the \emph{future} scientific impact of a replication target. If citation impact is taken as an indicator of simultaneous scientific impact, it follows that what we are interested in is the \emph{future} citation impact of a replication target article. Current total citation count of an article is a measure of past citation impact, but is likely predictive of future citation impact (Wang, Ren, Li, \& Chen, 2019). However, \emph{total} citation count is not a useful predictor of future citations as soon as we start comparing target articles across different publication years, as older articles have had more time to be cited. As an example, imagine two articles, A and B, that are both cited exactly 10 times every year. However, at the time of comparison study A is 3 years old and has a total citation count of 30, while study B is 9 years old and thus has a total citation count of 90. If we would use A and B's total citation count as a linear predictor of their relative future citation count we will erroneously conclude that B will receive three times as many citations as A. It is therefore sensible to adjust the two totals for their respective ages and estimate the \emph{yearly citation rate} (i.e.~the slope, or the derivative) of article A and B when determining their replication value.
+Replication can only increase the expected utility of research decisions that have not yet been made. Therefore, we specifically want to know the \emph{future} scientific impact of a replication target. If citation impact is taken as an indicator of simultaneous scientific impact, it follows that what we are interested in is the \emph{future} citation impact of a replication target article. Current total citation count of an article is a measure of past citation impact, but is likely predictive of future citation impact (M. Wang, Ren, Li, \& Chen, 2019). However, \emph{total} citation count is not a useful predictor of future citations as soon as we start comparing target articles across different publication years, as older articles have had more time to be cited. As an example, imagine two articles, A and B, that are both cited exactly 10 times every year. However, at the time of comparison study A is 3 years old and has a total citation count of 30, while study B is 9 years old and thus has a total citation count of 90. If we would use A and B's total citation count as a linear predictor of their relative future citation count we will erroneously conclude that B will receive three times as many citations as A. It is therefore sensible to adjust the two totals for their respective ages and estimate the \emph{yearly citation rate} (i.e.~the slope, or the derivative) of article A and B when determining their replication value.
 
 Here we propose to adjust for publication age by simply dividing citation count by the number of years since the article was published. That is, we operationalize the value of a claim as the \emph{average citations per year} of the paper that claim was reported in. In practice this assumes that past average yearly citation rate is a good predictor of the future trajectory of citations per year. This adjustment method works well when the future citation trajectory is relatively constant and similar to the past citation trajectory. Figure \ref{fig:2}A displays the 50-year citation trajectory for an imagined article. The yellow line shows the predicted citation trajectory based on summing the citations from the first 25 years (yellow bars) and dividing by the number of years. As expected, the prediction of the actual citation trajectory (grey line) is very accurate.
 
@@ -254,11 +277,11 @@ Here we propose to adjust for publication age by simply dividing citation count 
 \caption{\label{fig:2}\textbf{Figure 2:} Simulated 50 year citation rate for two imagined articles. The yellow bars display the citation rate for the first 25 years in the article's history. The grey bars represent the future rate (year 26-50) that we want to predict. The yellow labeled line displays the predicted trajectory of future citations based on taking the sum of citations from the first 25 years and dividing by the number of years. \textbf{(A)} The true citation trajectory is defined as a constant citation count per year plus random error. The predicted trajectory is a very good approximation of the true citation rate. \textbf{(B)} The true citation trajectory is defined as a gamma function of the year since publication plus random error. The predicted trajectory substantially overestimates the true citation rate.}
 \end{figure}
 
-Adjustment by averaging over age works less well when the citation trajectory of an article is not constant over time. Figure \ref{fig:2}B displays a more realistic 50-year citation trajectory (Parolo et al., 2015). In this context, predicting the future trajectory based on past average yearly citation count leads to a considerable overestimate of future citations. In fact, average yearly citation count will systematically over- or underestimate the future citation trajectory whenever the trajectory is not converging towards the past average yearly citation count. We therefore recommend that, whenever possible, prediction of future citation impact should be based on more sophisticated prediction techniques that utilize the entire distribution of past citation rate and other bibliometric features of the target article (e.g., Chakraborty2014; Yuan, Tang, Zhang, Wang, \& Xiao, 2018)\footnote{Even detailed access to the past citation record of an article will not always allow for accurate prediction of future citation count however, due to phenomena such as ``sleeping beauties'' {[}Ke2015{]} and other hard-to-predict fluctuations in citation rate.}. However, these methods require advanced expertise to understand and implement, and the information required to implement them may not always be available. For now, we focus on the simpler method of averaging over article age, which provides a rough but useful method for adjusting citation impact estimates so replication targets of different ages can be compared.
+Adjustment by averaging over age works less well when the citation trajectory of an article is not constant over time. Figure \ref{fig:2}B displays a more realistic 50-year citation trajectory (Parolo et al., 2015). In this context, predicting the future trajectory based on past average yearly citation count leads to a considerable overestimate of future citations. In fact, average yearly citation count will systematically over- or underestimate the future citation trajectory whenever the trajectory is not converging towards the past average yearly citation count. We therefore recommend that, whenever possible, prediction of future citation impact should be based on more sophisticated prediction techniques that utilize the entire distribution of past citation rate and other bibliometric features of the target article (e.g., Chakraborty, Kumar, Goyal, Ganguly, \& Mukherjee, 2014; Yuan, Tang, Zhang, Wang, \& Xiao, 2018)\footnote{Even detailed access to the past citation record of an article will not always allow for accurate prediction of future citation count however, due to phenomena such as ``sleeping beauties'' (Ke, Ferrara, Radicchi, \& Flammini, 2015) and other hard-to-predict fluctuations in citation rate.}. However, these methods require advanced expertise to understand and implement, and the information required to implement them may not always be available. For now, we focus on the simpler method of averaging over article age, which provides a rough but useful method for adjusting citation impact estimates so replication targets of different ages can be compared.
 
 In addition to controlling for age, we also need to consider the source that the citation count estimate is derived from. Citation counts retrieved from different sources (such as Google Scholar, Crossref, Scopus or Web of Science) differ both in terms of their reference coverage and in their exact citation counts for the same reference (Martín-Martín et al., 2018). However, rank-order correlations between citation counts from different sources appear to be very high (Burgers, 2019; Martín-Martín et al., 2018). Thus, as long as the same source is consistently used for all replication candidates under consideration, the relative rank-order difference in citation count between two candidates should be highly similar regardless of which source we use.
 
-Finally, we need to consider the fact that article citation counts tend to systematically vary between research fields for reasons that have nothing to do with the value of claims (e.g., Waltman \& van Eck, 2013; Bornmann \& Daniel, 2008). Two fields may differ in average article citation count due to differences in citation conventions, the amount of journals or issues published per year, word limits and the maximum number of references that is allowed for a specific article type, etc. A common approach to control for such variation is to replace raw citation count with \emph{field-weighted citation impact} (FWCI; Waltman \& van Eck, 2019), in which citations are normalized against the average citation count of articles from the same field of science.
+Finally, we need to consider the fact that article citation counts tend to systematically vary between research fields for reasons that have nothing to do with the value of claims (Bornmann \& Daniel, 2008; e.g., Waltman \& van Eck, 2013). Two fields may differ in average article citation count due to differences in citation conventions, the amount of journals or issues published per year, word limits and the maximum number of references that is allowed for a specific article type, etc. A common approach to control for such variation is to replace raw citation count with \emph{field-weighted citation impact} {[}FWCI; Waltman and van Eck (2019){]}, in which citations are normalized against the average citation count of articles from the same field of science.
 
 One prominent difficulty with FWCI is determining the reference class to normalize citation counts against. That is, when taking the average citation count of a research field, which articles in the literature belong to that field? While it is common to use Web of Science field categories for this delineation, these are considered too heterogeneous to accurately control for variations in citation practices (Waltman \& van Eck, 2013). Van Eck, Waltman, van Raan, Klautz, and Peul (2013) have demonstrated that FWCI fails to account for within-field variations in citations practices in medical science, and this can lead to a severe underestimation of the impact of clinical research. Another challenge when using FWCI to measure value is that some systematic differences in citation counts between fields may genuinely be due to differences in the value society places on knowledge produced in different fields. For example, according to Web of Science, the field of oncology (cancer research) is nearly four times the size of dermatology (skin condition research) in terms of sheer volume of articles published (1,802,676 vs 481,033 records, as of 2021-04-09) and at the time of writing, \emph{CA: A Cancer Journal for Clinicians} is the highest impact factor journal in the world (292 as of 2019). If the research field of oncology contains more researchers than dermatology - leading to more papers getting published and more citations generated, on average, for each published paper - this could reflect the fact that research in oncology is, on average, considered more valuable than research in dermatology (to society, to clinicians, to the research community etc.). In this case, FWCI becomes problematic because it partly suppresses the association between citation impact and value. Researchers should think carefully about whether FWCI or raw citation count is more appropriate for estimating value given the goals of their replication effort, and should also consider whether some approaches to field-normalization are more appropriate than others (Waltman \& van Eck, 2019).
 
@@ -272,7 +295,7 @@ With the above-mentioned issues in mind, if we are still willing to assume that 
 
 where \emph{C} stands for citation count of the article in which the claim in question is published, \emph{w}() stands for the weighting function that should be applied to the citation count (a field normalization, a utility function, etc. If raw citation scores are used then no weighting function is applied to \emph{C\textsubscript{S}}, \(w(C_{S}) = C_{S}\), and \emph{w}() can simply be removed from the equation), \emph{S} denotes the source the citation count is retrieved from, and \emph{Y} denotes the age of the article in years (1 is added to \emph{Y} in order to prevent the equation from evaluating to infinity when the article was published less than a year ago and \(Y=0\))\footnote{Since all articles less than a year old will be adjusted by the same amount, an article published in January will be considered of the same age as an article published in December, even though the former has had many more months to acquire citations. This will likely matter less when both articles are several years old, but for young articles the monthly age difference may lead to substantial differences in their value estimates. If possible, instead of adding 1 to the citation estimate one could consider collecting the exact publication date of each article, treat each day as 1/365th of a year, and simply divide citations less than a year old by 1/365th times the number of days since publication.}. The Value of an article published less than a year ago simply equals the weighted citation count of the article (\(w(C_{S}) \div (0+1)=w(C_{S})\)), the Value of an article published one year ago equals half the weighted citation count of the article (\(w(C_{S})\div(1+1)\)), and so on. Thus, Value is not identical, but closely related to the average yearly (weighted) citation count of the article.
 
-We could substitute equation \eqref{eq:4} with a more intricate estimator and likely get a more accurate impact estimate (Martin, 2011). However, there is an effort/accuracy tradeoff involved in replication study selection. The benefits gained by more accurate estimates of value need to be worth the additional efforts expended in collecting those estimates (e.g., in reviewing documentation, interviewing key stakeholders, running case studies, etc; Klautzer et al., 2011), since all effort could be avoided by simply choosing a replication candidate quickly based on random chance or personal interest, which would still lead to some expected utility gain. Consequently, it may be preferable to use a less accurate but more easily derivable operationalization of value, so long as that measure is still accurate enough to yield study selection decisions that increase utility more than random selection.
+We could substitute equation \eqref{eq:4} with a more intricate estimator and likely get a more accurate impact estimate (Martin, 2011). However, there is an effort/accuracy tradeoff involved in replication study selection. The benefits gained by more accurate estimates of value need to be worth the additional efforts expended in collecting those estimates {[}e.g., in reviewing documentation, interviewing key stakeholders, running case studies, etc; Klautzer et al. (2011){]}, since all effort could be avoided by simply choosing a replication candidate quickly based on random chance or personal interest, which would still lead to some expected utility gain. Consequently, it may be preferable to use a less accurate but more easily derivable operationalization of value, so long as that measure is still accurate enough to yield study selection decisions that increase utility more than random selection.
 
 \hypertarget{sample-size-as-an-indicator-of-uncertainty}{%
 \subsection{Sample size as an indicator of uncertainty}\label{sample-size-as-an-indicator-of-uncertainty}}
@@ -284,7 +307,7 @@ Establishing the validity of sample size for measuring uncertainty requires a sm
 \begin{figure}
 \centering
 \includegraphics{figure_3.png}
-\caption{\textbf{Figure 3:} Proposed causal relationship between `uncertainty' and `sample size' (`sample size' is outlined by a square to signal it is observable). The figure can be interpreted as a directed acyclic graph model, where `sample size' has a causal effect on `uncertainty' by reducing the `standard error' of relevant parameter estimates. Dashed circles represent variables d-separated from `sample size', which we want to but do not have knowledge about. Since they are unmeasured causes of `uncertainty', dashed circles also act as noise factors distorting the relationship between `uncertainty' and `sample size'. `Additional sources of uncertainty' refer to any additional non-confounding causes of `uncertainty' that we could think of (the unmeasured attributes U traditionally used in causal graph models). Absence of a causal arrow between any two variables in the model implies the strong assumption that there is no causal relationship between these variables. \label{fig:3}}
+\caption{\textbf{Figure 3:} Proposed causal relationship between `uncertainty' and `sample size' (`sample size' is outlined by a square to signal it is observable). The figure can be interpreted as a directed acyclic graph model, where `sample size' has a causal effect on `uncertainty' by reducing the `standard error' of relevant parameter estimates. Dashed circles represent variables d-separated from `sample size,' which we want to but do not have knowledge about. Since they are unmeasured causes of `uncertainty,' dashed circles also act as noise factors distorting the relationship between `uncertainty' and `sample size.' `Additional sources of uncertainty' refer to any additional non-confounding causes of `uncertainty' that we could think of (the unmeasured attributes U traditionally used in causal graph models). Absence of a causal arrow between any two variables in the model implies the strong assumption that there is no causal relationship between these variables. \label{fig:3}}
 \end{figure}
 
 Second, when the standard deviation is not available we propose to make the assumption that it is constant across all replication candidates, and to subsequently estimate the precision of the estimate using only the sample size of the estimate. This assumption will obviously always be false to some extent, which will lead to reduced estimate reliability. However, it does capture the fact that, all else being equal, the higher the sample size the more precise the estimate. Based on the assumptions above, we propose the following equation for uncertainty:
@@ -308,7 +331,7 @@ If we operationalize value and uncertainty as specified in equations \eqref{eq:4
 
 \begin{equation} 
   \tag{6}
-  RV_{Cn} = value\times uncertainty = \frac{w(C_{S})}{\sqrt{Y+1}}\times\frac{1}{\sqrt{n}}
+  RV_{Cn} = value\times uncertainty = \frac{w(C_{S})}{Y+1}\times\frac{1}{\sqrt{n}}
   \label{eq:6}
 \end{equation}
 
@@ -375,7 +398,7 @@ Whether \emph{RV\textsubscript{Cn}} is a valid and high-quality estimator of exp
 
 We collected one dataset intended to represent the population of replicated studies in psychology, and one dataset intended to represent the general population of empirical studies in psychology.
 
-The sample of replicated studies consisted of original study articles listed in the Curate Science replication dataset (\url{https://curatescience.org/app/replications}). As of 2020-10-20, the Curate Science replication dataset contained information about 1127 replications of 202 original studies, primarily from the field of psychology. For these original studies we estimated \emph{RV\textsubscript{Cn}} using sample size information available in the Curate Science dataset, and using publication year and citation count information from Crossref (\url{https://www.crossref.org/}. Citation counts were extracted from crossref 2020-10-20 using the rcrossref package in R; Chamberlain, Zhu, Jahn, Boettiger, \& Ram, 2020). Due to missing DOI information, \emph{RV\textsubscript{Cn}} could not be calculated for 35 studies. The final sample of replicated studies contained 167 studies from 145 articles.
+The sample of replicated studies consisted of original study articles listed in the Curate Science replication dataset (\url{https://curatescience.org/app/replications}). As of 2020-10-20, the Curate Science replication dataset contained information about 1127 replications of 202 original studies, primarily from the field of psychology. For these original studies we estimated \emph{RV\textsubscript{Cn}} using sample size information available in the Curate Science dataset, and using publication year and citation count information from Crossref {[}\url{https://www.crossref.org/}. Citation counts were extracted from crossref 2020-10-20 using the rcrossref package in R; Chamberlain, Zhu, Jahn, Boettiger, and Ram (2020){]}. Due to missing DOI information, \emph{RV\textsubscript{Cn}} could not be calculated for 35 studies. The final sample of replicated studies contained 167 studies from 145 articles.
 
 The comparison sample consisted of 15104 empirical studies referenced in the tables of meta-analyses published in Psychological Bulletin between the years 1914 and 2017. Since all articles contained findings that have been referenced in meta-analysis tables in a general-topic psychology journal, we assumed this sampling strategy would form a reasonably representative sample of published empirical psychology studies. We also assumed, given the generally low rate of replication in psychology (Makel et al., 2012), that the comparison sample would consist largely of non-replicated original studies. We estimated \emph{RV\textsubscript{Cn}} for each article using the sample size available in the meta-analysis tables, and using publication year and citation count information from Crossref (citation counts were extracted from crossref 2020-10-20). To retrieve citation count information, the DOI of each study had to be retrieved, which was accomplished by applying a text-mining procedure to the bibliometric information available in the meta-analysis tables and reference lists. However, limited bibliometric information in the meta-analysis tables led to many cases where the DOI could not be retrieved. Due to missing DOI information, \emph{RV\textsubscript{Cn}} could not be calculated for 11033 studies. The final sample of replicated studies contained 4071 studies from as many articles.\\
 
@@ -451,182 +474,189 @@ Third, even if \emph{RV\textsubscript{Cn}} would be valid for measuring expected
 \caption{\textbf{Figure 8:} Causal scenario which will lead \emph{RV\textsubscript{Cn}} to become a biased measure of expected utility gain due to the influence of \emph{uncertainty before replication} on \emph{citation count}. \label{fig:8}}
 \end{figure}
 
-The key insight we wish to leave the reader with in this paper is that \emph{any} strategy for replication study selection must be able to demonstrate usefulness, which entails assessing the feasibility and quality of the study selection criteria used. This assessment can only happen if we first specify the goal of replication and formalize how the goal is achieved through the selection strategy we are proposing. Only then can we evaluate whether the strategy works as intended. For existing indicator-based strategies where the rationale behind the indicator used remains unclear (e.g., Makel et al., 2012; Field et al., 2019; Isager, 2018; Isager et al., 2020, supplementary materials), the measurement model should be formalized so that validation and comparison of different strategies can take place. The present article serves as a general example of how study selection strategies could explicitly be related to the goal we wish to accomplish when replicating, and how this in turn enables us to examine whether a given strategy is likely to work as intended. In doing so we enable a more transparent discussion of what is important to replicate, which will be crucial for coordinating future replication efforts and direct resources to where they are needed the most. Through such discussion and coordination we increase the overall impact of replication studies on scientific discourse and strengthen the argument for why replications should be conducted and rewarded.
+The key insight we wish to leave the reader with in this paper is that \emph{any} strategy for replication study selection must be able to demonstrate usefulness, which entails assessing the feasibility and quality of the study selection criteria used. This assessment can only happen if we first specify the goal of replication and formalize how the goal is achieved through the selection strategy we are proposing. Only then can we evaluate whether the strategy works as intended. For existing indicator-based strategies where the rationale behind the indicator used remains unclear (Field et al., 2019; Isager, 2018; Isager et al., 2020, supplementary materials; e.g., Makel et al., 2012), the measurement model should be formalized so that validation and comparison of different strategies can take place. The present article serves as a general example of how study selection strategies could explicitly be related to the goal we wish to accomplish when replicating, and how this in turn enables us to examine whether a given strategy is likely to work as intended. In doing so we enable a more transparent discussion of what is important to replicate, which will be crucial for coordinating future replication efforts and direct resources to where they are needed the most. Through such discussion and coordination we increase the overall impact of replication studies on scientific discourse and strengthen the argument for why replications should be conducted and rewarded.
 
 \hypertarget{references}{%
 \section*{References}\label{references}}
 \addcontentsline{toc}{section}{References}
 
 \hypertarget{refs}{}
-\begin{cslreferences}
-\leavevmode\hypertarget{ref-Aksnes2019}{}%
-Aksnes, D. W., Langfeldt, L., \& Wouters, P. (2019). Citations, Citation Indicators, and Research Quality: An Overview of Basic Concepts and Theories. \emph{SAGE Open}, \emph{9}(1), 215824401982957. \url{https://doi.org/10.1177/2158244019829575}
+\begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-Aksnes2019}{}}%
+Aksnes, D. W., Langfeldt, L., \& Wouters, P. (2019). Citations, {Citation Indicators}, and {Research Quality}: {An Overview} of {Basic Concepts} and {Theories}. \emph{SAGE Open}, \emph{9}(1), 215824401982957. \url{https://doi.org/10.1177/2158244019829575}
 
-\leavevmode\hypertarget{ref-Altmejd2019}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-Altmejd2019}{}}%
 Altmejd, A., Dreber, A., Forsell, E., Huber, J., Imai, T., Johannesson, M., \ldots{} Camerer, C. (2019). Predicting the replicability of social science lab experiments. \emph{PLOS ONE}, \emph{14}(12), e0225826. \url{https://doi.org/10.1371/journal.pone.0225826}
 
-\leavevmode\hypertarget{ref-Blaszczynski2019}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-Blaszczynski2019}{}}%
 Blaszczynski, A., \& Gainsbury, S. M. (2019). Editor's note: Replication crisis in the social sciences. \emph{International Gambling Studies}, \emph{19}(3), 359--361. \url{https://doi.org/10.1080/14459795.2019.1673786}
 
-\leavevmode\hypertarget{ref-Bornmann2008}{}%
-Bornmann, L., \& Daniel, H.-D. (2008). What do citation counts measure? A review of studies on citing behavior. \emph{Journal of Documentation}, \emph{64}(1), 45--80. \url{https://doi.org/10.1108/00220410810844150}
+\leavevmode\vadjust pre{\hypertarget{ref-Bornmann2008}{}}%
+Bornmann, L., \& Daniel, H.-D. (2008). What do citation counts measure? {A} review of studies on citing behavior. \emph{Journal of Documentation}, \emph{64}(1), 45--80. \url{https://doi.org/10.1108/00220410810844150}
 
-\leavevmode\hypertarget{ref-Bornmann2015}{}%
-Bornmann, L., \& Mutz, R. (2015). Growth rates of modern science: A bibliometric analysis based on the number of publications and cited references. \emph{Journal of the Association for Information Science and Technology}, \emph{66}(11), 2215--2222. \url{https://doi.org/10.1002/asi.23329}
+\leavevmode\vadjust pre{\hypertarget{ref-Bornmann2015}{}}%
+Bornmann, L., \& Mutz, R. (2015). Growth rates of modern science: {A} bibliometric analysis based on the number of publications and cited references. \emph{Journal of the Association for Information Science and Technology}, \emph{66}(11), 2215--2222. \url{https://doi.org/10.1002/asi.23329}
 
-\leavevmode\hypertarget{ref-Borsboom2004}{}%
-Borsboom, D., Mellenbergh, G. J., \& van Heerden, J. (2004). The Concept of Validity. \emph{Psychological Review}, \emph{111}(4), 1061--1071. \url{https://doi.org/10.1037/0033-295X.111.4.1061}
+\leavevmode\vadjust pre{\hypertarget{ref-Borsboom2004}{}}%
+Borsboom, D., Mellenbergh, G. J., \& van Heerden, J. (2004). The {Concept} of {Validity}. \emph{Psychological Review}, \emph{111}(4), 1061--1071. \url{https://doi.org/10.1037/0033-295X.111.4.1061}
 
-\leavevmode\hypertarget{ref-Burgers2019}{}%
-Burgers, J. (2019). Citation Counts as a Measure for Scientific Impact. \url{https://doi.org/10.31237/osf.io/y9r7c}
+\leavevmode\vadjust pre{\hypertarget{ref-Burgers2019}{}}%
+Burgers, J. (2019). Citation {Counts} as a {Measure} for {Scientific Impact}. \url{https://doi.org/10.31237/osf.io/y9r7c}
 
-\leavevmode\hypertarget{ref-Button2013}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-Button2013}{}}%
 Button, K. S., Ioannidis, J. P. A., Mokrysz, C., Nosek, B. A., Flint, J., Robinson, E. S. J., \& Munafò, M. R. (2013). Power failure: Why small sample size undermines the reliability of neuroscience. \emph{Nature Reviews Neuroscience}, \emph{14}(5), 365--376. \url{https://doi.org/10.1038/nrn3475}
 
-\leavevmode\hypertarget{ref-Chamberlain2020}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-Chakraborty2014}{}}%
+Chakraborty, T., Kumar, S., Goyal, P., Ganguly, N., \& Mukherjee, A. (2014). Towards a stratified learning approach to predict future citation counts. In \emph{{IEEE}/{ACM Joint Conference} on {Digital Libraries}} (pp. 351--360). \url{https://doi.org/10.1109/JCDL.2014.6970190}
+
+\leavevmode\vadjust pre{\hypertarget{ref-Chamberlain2020}{}}%
 Chamberlain, S., Zhu, H., Jahn, N., Boettiger, C., \& Ram, K. (2020). Rcrossref.
 
-\leavevmode\hypertarget{ref-DeBruine2021}{}%
-DeBruine, L. M., \& Barr, D. J. (2021). Understanding Mixed-Effects Models Through Data Simulation. \emph{Advances in Methods and Practices in Psychological Science}, \emph{4}(1), 2515245920965119. \url{https://doi.org/10.1177/2515245920965119}
+\leavevmode\vadjust pre{\hypertarget{ref-DeBruine2021}{}}%
+DeBruine, L. M., \& Barr, D. J. (2021). Understanding {Mixed}-{Effects Models Through Data Simulation}. \emph{Advances in Methods and Practices in Psychological Science}, \emph{4}(1), 2515245920965119. \url{https://doi.org/10.1177/2515245920965119}
 
-\leavevmode\hypertarget{ref-DeDeo2018}{}%
-DeDeo, S. (2018). Information Theory for Intelligent People, 15.
+\leavevmode\vadjust pre{\hypertarget{ref-DeDeo2018}{}}%
+DeDeo, S. (2018). Information {Theory} for {Intelligent People}, 15.
 
-\leavevmode\hypertarget{ref-Eck2013}{}%
-Eck, N. J. van, Waltman, L., Raan, A. F. J. van, Klautz, R. J. M., \& Peul, W. C. (2013). Citation Analysis May Severely Underestimate the Impact of Clinical Research as Compared to Basic Research. \emph{PLOS ONE}, \emph{8}(4), e62395. \url{https://doi.org/10.1371/journal.pone.0062395}
+\leavevmode\vadjust pre{\hypertarget{ref-Eck2013}{}}%
+Eck, N. J. van, Waltman, L., Raan, A. F. J. van, Klautz, R. J. M., \& Peul, W. C. (2013). Citation {Analysis May Severely Underestimate} the {Impact} of {Clinical Research} as {Compared} to {Basic Research}. \emph{PLOS ONE}, \emph{8}(4), e62395. \url{https://doi.org/10.1371/journal.pone.0062395}
 
-\leavevmode\hypertarget{ref-Field2019}{}%
-Field, S. M., Hoekstra, R., Bringmann, L., \& Van Ravenzwaaij, D. (2019). When and Why to Replicate: As Easy as 1, 2, 3? \emph{Collabra: Psychology}, \emph{5}(1), 46. \url{https://doi.org/10.1525/collabra.218}
+\leavevmode\vadjust pre{\hypertarget{ref-Field2019}{}}%
+Field, S. M., Hoekstra, R., Bringmann, L., \& Van Ravenzwaaij, D. (2019). When and {Why} to {Replicate}: {As Easy} as 1, 2, 3? \emph{Collabra: Psychology}, \emph{5}(1), 46. \url{https://doi.org/10.1525/collabra.218}
 
-\leavevmode\hypertarget{ref-Hagger2016}{}%
-Hagger, M. S., Chatzisarantis, N. L. D., Alberts, H., Anggono, C. O., Batailler, C., Birt, A. R., \ldots{} Zwienenberg, M. (2016). A Multilab Preregistered Replication of the Ego-Depletion Effect. \emph{Perspectives on Psychological Science}, \emph{11}(4), 546--573. \url{https://doi.org/10.1177/1745691616652873}
+\leavevmode\vadjust pre{\hypertarget{ref-Hagger2016}{}}%
+Hagger, M. S., Chatzisarantis, N. L. D., Alberts, H., Anggono, C. O., Batailler, C., Birt, A. R., \ldots{} Zwienenberg, M. (2016). A {Multilab Preregistered Replication} of the {Ego}-{Depletion Effect}. \emph{Perspectives on Psychological Science}, \emph{11}(4), 546--573. \url{https://doi.org/10.1177/1745691616652873}
 
-\leavevmode\hypertarget{ref-Heirene2021}{}%
-Heirene, R. M. (2021). A call for replications of addiction research: Which studies should we replicate and what constitutes a ``successful'' replication? \emph{Addiction Research \& Theory}, \emph{29}(2), 89--97. \url{https://doi.org/10.1080/16066359.2020.1751130}
+\leavevmode\vadjust pre{\hypertarget{ref-Heirene2021}{}}%
+Heirene, R. M. (2021). A call for replications of addiction research: Which studies should we replicate and what constitutes a {`successful'} replication? \emph{Addiction Research \& Theory}, \emph{29}(2), 89--97. \url{https://doi.org/10.1080/16066359.2020.1751130}
 
-\leavevmode\hypertarget{ref-Hernan2020}{}%
-Hernán, M., \& Robins, J. (2020). \emph{Causal Inference: What If.} Boca Raton: Chapman \& Hall/CRC.
+\leavevmode\vadjust pre{\hypertarget{ref-Hernan2020}{}}%
+Hernán, M., \& Robins, J. (2020). \emph{Causal {Inference}: {What If}.} {Boca Raton}: {Chapman \& Hall/CRC}.
 
-\leavevmode\hypertarget{ref-Ioannidis2014}{}%
-Ioannidis, J. P. A., Boyack, K. W., Small, H., Sorensen, A. A., \& Klavans, R. (2014). Bibliometrics: Is your most cited work your best? \emph{Nature News}, \emph{514}(7524), 561. \url{https://doi.org/10.1038/514561a}
+\leavevmode\vadjust pre{\hypertarget{ref-Ioannidis2014}{}}%
+Ioannidis, J. P. A., Boyack, K. W., Small, H., Sorensen, A. A., \& Klavans, R. (2014). Bibliometrics: {Is} your most cited work your best? \emph{Nature News}, \emph{514}(7524), 561. \url{https://doi.org/10.1038/514561a}
 
-\leavevmode\hypertarget{ref-Isager2018}{}%
-Isager, P. M. (2018). What To Replicate? Justifications Of Study Choice From 85 Replication Studies. \url{https://doi.org/10.5281/zenodo.1286715}
+\leavevmode\vadjust pre{\hypertarget{ref-Isager2018}{}}%
+Isager, P. M. (2018). What {To Replicate}? {Justifications Of Study Choice From} 85 {Replication Studies}. \url{https://doi.org/10.5281/zenodo.1286715}
 
-\leavevmode\hypertarget{ref-Isager2020a}{}%
-Isager, P. M. (2020). Test validity defined as d-connection between target and measured attribute: Expanding the causal definition of Borsboom et al. (2004). PsyArXiv. \url{https://doi.org/10.31234/osf.io/btgsr}
+\leavevmode\vadjust pre{\hypertarget{ref-Isager2020a}{}}%
+Isager, P. M. (2020). Test validity defined as d-connection between target and measured attribute: {Expanding} the causal definition of {Borsboom} et al. (2004). {PsyArXiv}. \url{https://doi.org/10.31234/osf.io/btgsr}
 
-\leavevmode\hypertarget{ref-Isager2020}{}%
-Isager, P. M., Aert, R. C. M. van, Bahník, Š., Brandt, M., DeSoto, K. A., Giner-Sorolla, R., \ldots{} Lakens, D. (2020). Deciding what to replicate: A formal definition of ``replication value'' and a decision model for replication study selection. MetaArXiv. \url{https://doi.org/10.31222/osf.io/2gurz}
+\leavevmode\vadjust pre{\hypertarget{ref-Isager2020}{}}%
+Isager, P. M., Aert, R. C. M. van, Bahník, Š., Brandt, M., DeSoto, K. A., Giner-Sorolla, R., \ldots{} Lakens, D. (2020). Deciding what to replicate: {A} formal definition of {``replication value''} and a decision model for replication study selection. {MetaArXiv}. \url{https://doi.org/10.31222/osf.io/2gurz}
 
-\leavevmode\hypertarget{ref-Klautzer2011}{}%
-Klautzer, L., Hanney, S., Nason, E., Rubin, J., Grant, J., \& Wooding, S. (2011). Assessing policy and practice impacts of social science research: The application of the Payback Framework to assess the Future of Work programme. \emph{Research Evaluation}, \emph{20}(3), 201--209. \url{https://doi.org/10.3152/095820211X13118583635675}
+\leavevmode\vadjust pre{\hypertarget{ref-Ke2015}{}}%
+Ke, Q., Ferrara, E., Radicchi, F., \& Flammini, A. (2015). Defining and identifying {Sleeping Beauties} in science. \emph{Proceedings of the National Academy of Sciences}, \emph{112}(24), 7426--7431. \url{https://doi.org/10.1073/pnas.1424329112}
 
-\leavevmode\hypertarget{ref-KNAW2018}{}%
-KNAW. (2018). \emph{Replication studies Improving reproducibility in the empirical sciences}. Amsterdam: KNAW.
+\leavevmode\vadjust pre{\hypertarget{ref-Klautzer2011}{}}%
+Klautzer, L., Hanney, S., Nason, E., Rubin, J., Grant, J., \& Wooding, S. (2011). Assessing policy and practice impacts of social science research: The application of the {Payback Framework} to assess the {Future} of {Work} programme. \emph{Research Evaluation}, \emph{20}(3), 201--209. \url{https://doi.org/10.3152/095820211X13118583635675}
 
-\leavevmode\hypertarget{ref-Lakens2021a}{}%
-Lakens, D., \& DeBruine, L. M. (2021). Improving Transparency, Falsifiability, and Rigor by Making Hypothesis Tests Machine-Readable. \emph{Advances in Methods and Practices in Psychological Science}, \emph{4}(2), 2515245920970949. \url{https://doi.org/10.1177/2515245920970949}
+\leavevmode\vadjust pre{\hypertarget{ref-KNAW2018}{}}%
+KNAW. (2018). \emph{Replication studies \textendash{} {Improving} reproducibility in the empirical sciences}. {Amsterdam}: {KNAW}.
 
-\leavevmode\hypertarget{ref-Makel2012}{}%
-Makel, M. C., Plucker, J. A., \& Hegarty, B. (2012). Replications in Psychology Research: How Often Do They Really Occur? \emph{Perspectives on Psychological Science}, \emph{7}(6), 537--542. \url{https://doi.org/10.1177/1745691612460688}
+\leavevmode\vadjust pre{\hypertarget{ref-Lakens2021a}{}}%
+Lakens, D., \& DeBruine, L. M. (2021). Improving {Transparency}, {Falsifiability}, and {Rigor} by {Making Hypothesis Tests Machine}-{Readable}. \emph{Advances in Methods and Practices in Psychological Science}, \emph{4}(2), 2515245920970949. \url{https://doi.org/10.1177/2515245920970949}
 
-\leavevmode\hypertarget{ref-Martin2011}{}%
-Martin, B. R. (2011). The Research Excellence Framework and the ``impact agenda'': Are we creating a Frankenstein monster? \emph{Research Evaluation}, \emph{20}(3), 247--254. \url{https://doi.org/10.3152/095820211X13118583635693}
+\leavevmode\vadjust pre{\hypertarget{ref-Makel2012}{}}%
+Makel, M. C., Plucker, J. A., \& Hegarty, B. (2012). Replications in {Psychology Research}: {How Often Do They Really Occur}? \emph{Perspectives on Psychological Science}, \emph{7}(6), 537--542. \url{https://doi.org/10.1177/1745691612460688}
 
-\leavevmode\hypertarget{ref-Martin-Martin2018}{}%
-Martín-Martín, A., Orduna-Malea, E., Thelwall, M., \& Delgado López-Cózar, E. (2018). Google Scholar, Web of Science, and Scopus: A systematic comparison of citations in 252 subject categories. \emph{Journal of Informetrics}, \emph{12}(4), 1160--1177. \url{https://doi.org/10.1016/j.joi.2018.09.002}
+\leavevmode\vadjust pre{\hypertarget{ref-Martin2011}{}}%
+Martin, B. R. (2011). The {Research Excellence Framework} and the {`impact agenda'}: Are we creating a {Frankenstein} monster? \emph{Research Evaluation}, \emph{20}(3), 247--254. \url{https://doi.org/10.3152/095820211X13118583635693}
 
-\leavevmode\hypertarget{ref-Matiasz2018}{}%
-Matiasz, N. J., Wood, J., Doshi, P., Speier, W., Beckemeyer, B., Wang, W., \ldots{} Silva, A. J. (2018). ResearchMaps.Org for integrating and planning research. \emph{PloS One}, \emph{13}(5), e0195271. \url{https://doi.org/10.1371/journal.pone.0195271}
+\leavevmode\vadjust pre{\hypertarget{ref-Martin-Martin2018}{}}%
+Martín-Martín, A., Orduna-Malea, E., Thelwall, M., \& Delgado López-Cózar, E. (2018). Google {Scholar}, {Web} of {Science}, and {Scopus}: {A} systematic comparison of citations in 252 subject categories. \emph{Journal of Informetrics}, \emph{12}(4), 1160--1177. \url{https://doi.org/10.1016/j.joi.2018.09.002}
 
-\leavevmode\hypertarget{ref-Mayo2018}{}%
-Mayo, D. G. (2018). \emph{Statistical inference as severe testing}. Cambridge: Cambridge University Press.
+\leavevmode\vadjust pre{\hypertarget{ref-Matiasz2018}{}}%
+Matiasz, N. J., Wood, J., Doshi, P., Speier, W., Beckemeyer, B., Wang, W., \ldots{} Silva, A. J. (2018). {ResearchMaps}.org for integrating and planning research. \emph{PloS One}, \emph{13}(5), e0195271. \url{https://doi.org/10.1371/journal.pone.0195271}
 
-\leavevmode\hypertarget{ref-Meehl1997}{}%
-Meehl, P. E. (1997). The Problem Is Epistemology, Not Statistics: Replace Significance Tests by Confidence Intervals and Quantify Accuracy of Risky Numerical Predictions. In L. L. Harlow, S. A. Mulaik, \& J. H. Steiger (Eds.), \emph{What If There Were No Significance Tests?}
+\leavevmode\vadjust pre{\hypertarget{ref-Mayo2018}{}}%
+Mayo, D. G. (2018). \emph{Statistical inference as severe testing}. {Cambridge: Cambridge University Press}.
 
-\leavevmode\hypertarget{ref-Mueller-Langer2019}{}%
-Mueller-Langer, F., Fecher, B., Harhoff, D., \& Wagner, G. G. (2019). Replication studies in economicsHow many and which papers are chosen for replication, and why? \emph{Research Policy}, \emph{48}(1), 62--83. \url{https://doi.org/10.1016/j.respol.2018.07.019}
+\leavevmode\vadjust pre{\hypertarget{ref-Meehl1997}{}}%
+Meehl, P. E. (1997). The {Problem Is Epistemology}, {Not Statistics}: {Replace Significance Tests} by {Confidence Intervals} and {Quantify Accuracy} of {Risky Numerical Predictions}. In L. L. Harlow, S. A. Mulaik, \& J. H. Steiger (Eds.), \emph{What {If There Were No Significance Tests}?}
 
-\leavevmode\hypertarget{ref-Murphy2021}{}%
-Murphy, J., Mesquida, C., Caldwell, A. R., Earp, B. D., \& Warne, J. (2021). Selection Protocol for Replication in Sports and Exercise Science. OSF Preprints. \url{https://doi.org/10.31219/osf.io/v3wz4}
+\leavevmode\vadjust pre{\hypertarget{ref-Mueller-Langer2019}{}}%
+Mueller-Langer, F., Fecher, B., Harhoff, D., \& Wagner, G. G. (2019). Replication studies in economics\textemdash{{How}} many and which papers are chosen for replication, and why? \emph{Research Policy}, \emph{48}(1), 62--83. \url{https://doi.org/10.1016/j.respol.2018.07.019}
 
-\leavevmode\hypertarget{ref-Nicholson2021}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-Murphy2021}{}}%
+Murphy, J., Mesquida, C., Caldwell, A. R., Earp, B. D., \& Warne, J. (2021). Selection {Protocol} for {Replication} in {Sports} and {Exercise Science}. {OSF Preprints}. \url{https://doi.org/10.31219/osf.io/v3wz4}
+
+\leavevmode\vadjust pre{\hypertarget{ref-Nicholson2021}{}}%
 Nicholson, J. M., Mordaunt, M., Lopez, P., Uppala, A., Rosati, D., Rodrigues, N. P., \ldots{} Rife, S. C. (2021). Scite: A smart citation index that displays the context of citations and classifies their intent using deep learning. \emph{bioRxiv}, 2021.03.15.435418. \url{https://doi.org/10.1101/2021.03.15.435418}
 
-\leavevmode\hypertarget{ref-OpenScienceCollaboration2015}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-OpenScienceCollaboration2015}{}}%
 Open Science Collaboration. (2015). Estimating the reproducibility of psychological science. \emph{Science}, \emph{349}(6251), aac4716--aac4716. \url{https://doi.org/10.1126/science.aac4716}
 
-\leavevmode\hypertarget{ref-Parolo2015}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-Parolo2015}{}}%
 Parolo, P. D. B., Pan, R. K., Ghosh, R., Huberman, B. A., Kaski, K., \& Fortunato, S. (2015). Attention decay in science. \emph{Journal of Informetrics}, \emph{9}(4), 734--745. \url{https://doi.org/10.1016/j.joi.2015.07.006}
 
-\leavevmode\hypertarget{ref-Pittelkow2021}{}%
-Pittelkow, M.-M., Field, S. M., Isager, P. M., Veer, A. van 't, \& Ravenzwaaij, D. van. (2021). The Process of Replication Target Selection: What to Consider?
+\leavevmode\vadjust pre{\hypertarget{ref-Pittelkow2021}{}}%
+Pittelkow, M.-M., Field, S. M., Isager, P. M., Veer, A. van 't, \& Ravenzwaaij, D. van. (2021). The {Process} of {Replication Target Selection}: {What} to {Consider}?
 
-\leavevmode\hypertarget{ref-Pittelkow2020}{}%
-Pittelkow, M.-M., Hoekstra, R., Karsten, J., \& van Ravenzwaaij, D. (2020). \emph{Replication Crisis in Clinical Psychology: A Bayesian and Qualitative Re-evaluation} (Preprint). PsyArXiv. \url{https://doi.org/10.31234/osf.io/unezq}
+\leavevmode\vadjust pre{\hypertarget{ref-Pittelkow2020}{}}%
+Pittelkow, M.-M., Hoekstra, R., Karsten, J., \& van Ravenzwaaij, D. (2020). \emph{Replication {Crisis} in {Clinical Psychology}: {A Bayesian} and {Qualitative Re}-evaluation} (Preprint). {PsyArXiv}. \url{https://doi.org/10.31234/osf.io/unezq}
 
-\leavevmode\hypertarget{ref-Plucker2021}{}%
-Plucker, J. A., \& Makel, M. C. (2021). Replication is important for educational psychology: Recent developments and key issues. \emph{Educational Psychologist}, \emph{0}(0), 1--11. \url{https://doi.org/10.1080/00461520.2021.1895796}
+\leavevmode\vadjust pre{\hypertarget{ref-Plucker2021}{}}%
+Plucker, J. A., \& Makel, M. C. (2021). Replication is important for educational psychology: {Recent} developments and key issues. \emph{Educational Psychologist}, \emph{0}(0), 1--11. \url{https://doi.org/10.1080/00461520.2021.1895796}
 
-\leavevmode\hypertarget{ref-Radicchi2017}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-Radicchi2017}{}}%
 Radicchi, F., Weissman, A., \& Bollen, J. (2017). Quantifying perceived impact of scientific publications. \emph{Journal of Informetrics}, \emph{11}(3), 704--712. \url{https://doi.org/10.1016/j.joi.2017.05.010}
 
-\leavevmode\hypertarget{ref-Ranehill2015}{}%
-Ranehill, E., Dreber, A., Johannesson, M., Leiberg, S., Sul, S., \& Weber, R. A. (2015). Assessing the Robustness of Power Posing: No Effect on Hormones and Risk Tolerance in a Large Sample of Men and Women. \emph{Psychological Science}, \emph{26}(5), 653--656. \url{https://doi.org/10.1177/0956797614553946}
+\leavevmode\vadjust pre{\hypertarget{ref-Ranehill2015}{}}%
+Ranehill, E., Dreber, A., Johannesson, M., Leiberg, S., Sul, S., \& Weber, R. A. (2015). Assessing the {Robustness} of {Power Posing}: {No Effect} on {Hormones} and {Risk Tolerance} in a {Large Sample} of {Men} and {Women}. \emph{Psychological Science}, \emph{26}(5), 653--656. \url{https://doi.org/10.1177/0956797614553946}
 
-\leavevmode\hypertarget{ref-zotero-3730}{}%
-Reliability APA Dictionary of Psychology. (n.d.). https://dictionary.apa.org/reliability.
+\leavevmode\vadjust pre{\hypertarget{ref-zotero-3730}{}}%
+Reliability \textendash{} {APA Dictionary} of {Psychology}. (n.d.). https://dictionary.apa.org/reliability.
 
-\leavevmode\hypertarget{ref-Ritchie2012}{}%
-Ritchie, S. J., Wiseman, R., \& French, C. C. (2012). Failing the Future: Three Unsuccessful Attempts to Replicate Bem's ``Retroactive Facilitation of Recall'' Effect. \emph{PLoS ONE}, \emph{7}(3), e33423. \url{https://doi.org/10.1371/journal.pone.0033423}
+\leavevmode\vadjust pre{\hypertarget{ref-Ritchie2012}{}}%
+Ritchie, S. J., Wiseman, R., \& French, C. C. (2012). Failing the {Future}: {Three Unsuccessful Attempts} to {Replicate Bem}'s {`{Retroactive Facilitation} of {Recall}'} {Effect}. \emph{PLoS ONE}, \emph{7}(3), e33423. \url{https://doi.org/10.1371/journal.pone.0033423}
 
-\leavevmode\hypertarget{ref-Rouder2018}{}%
-Rouder, J. N., \& Haaf, J. M. (2018). Power, Dominance, and Constraint: A Note on the Appeal of Different Design Traditions. \emph{Advances in Methods and Practices in Psychological Science}, \emph{1}(1), 19--26. \url{https://doi.org/10.1177/2515245917745058}
+\leavevmode\vadjust pre{\hypertarget{ref-Rouder2018}{}}%
+Rouder, J. N., \& Haaf, J. M. (2018). Power, {Dominance}, and {Constraint}: {A Note} on the {Appeal} of {Different Design Traditions}. \emph{Advances in Methods and Practices in Psychological Science}, \emph{1}(1), 19--26. \url{https://doi.org/10.1177/2515245917745058}
 
-\leavevmode\hypertarget{ref-Sale2018}{}%
-Sale, C., \& Mellor, D. (2018). A call for replication studies in Nutrition and Health. \emph{Nutrition and Health}, \emph{24}(4), 201--201. \url{https://doi.org/10.1177/0260106018817675}
+\leavevmode\vadjust pre{\hypertarget{ref-Sale2018}{}}%
+Sale, C., \& Mellor, D. (2018). A call for replication studies in {Nutrition} and {Health}. \emph{Nutrition and Health}, \emph{24}(4), 201--201. \url{https://doi.org/10.1177/0260106018817675}
 
-\leavevmode\hypertarget{ref-Serra-Garcia2021}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-Serra-Garcia2021}{}}%
 Serra-Garcia, M., \& Gneezy, U. (2021). Nonreplicable publications are cited more than replicable ones. \emph{Science Advances}, \emph{7}(21), eabd1705. \url{https://doi.org/10.1126/sciadv.abd1705}
 
-\leavevmode\hypertarget{ref-zotero-3728}{}%
-Test bias APA Dictionary of Psychology. (n.d.). https://dictionary.apa.org/test-bias.
+\leavevmode\vadjust pre{\hypertarget{ref-zotero-3728}{}}%
+Test bias \textendash{} {APA Dictionary} of {Psychology}. (n.d.). https://dictionary.apa.org/test-bias.
 
-\leavevmode\hypertarget{ref-VanEck2013}{}%
-van Eck, N. J., Waltman, L., van Raan, A. F. J., Klautz, R. J. M., \& Peul, W. C. (2013). Citation Analysis May Severely Underestimate the Impact of Clinical Research as Compared to Basic Research. \emph{PLoS ONE}, \emph{8}(4), e62395. \url{https://doi.org/10.1371/journal.pone.0062395}
+\leavevmode\vadjust pre{\hypertarget{ref-VanEck2013}{}}%
+van Eck, N. J., Waltman, L., van Raan, A. F. J., Klautz, R. J. M., \& Peul, W. C. (2013). Citation {Analysis May Severely Underestimate} the {Impact} of {Clinical Research} as {Compared} to {Basic Research}. \emph{PLoS ONE}, \emph{8}(4), e62395. \url{https://doi.org/10.1371/journal.pone.0062395}
 
-\leavevmode\hypertarget{ref-Vargha2000}{}%
-Vargha, A., \& Delaney, H. D. (2000). A Critique and Improvement of the CL Common Language Effect Size Statistics of McGraw and Wong. \emph{Journal of Educational and Behavioral Statistics}, \emph{25}(2), 101--132. \url{https://doi.org/10.3102/10769986025002101}
+\leavevmode\vadjust pre{\hypertarget{ref-Vargha2000}{}}%
+Vargha, A., \& Delaney, H. D. (2000). A {Critique} and {Improvement} of the {CL Common Language Effect Size Statistics} of {McGraw} and {Wong}. \emph{Journal of Educational and Behavioral Statistics}, \emph{25}(2), 101--132. \url{https://doi.org/10.3102/10769986025002101}
 
-\leavevmode\hypertarget{ref-Wagenmakers2016}{}%
-Wagenmakers, E.-J., Beek, T., Dijkhoff, L., Gronau, Q. F., Acosta, A., Adams, R. B., \ldots{} Zwaan, R. A. (2016). Registered Replication Report: Strack, Martin, \& Stepper (1988). \emph{Perspectives on Psychological Science}, \emph{11}(6), 917--928. \url{https://doi.org/10.1177/1745691616674458}
+\leavevmode\vadjust pre{\hypertarget{ref-Wagenmakers2016}{}}%
+Wagenmakers, E.-J., Beek, T., Dijkhoff, L., Gronau, Q. F., Acosta, A., Adams, R. B., \ldots{} Zwaan, R. A. (2016). Registered {Replication Report}: {Strack}, {Martin}, \& {Stepper} (1988). \emph{Perspectives on Psychological Science}, \emph{11}(6), 917--928. \url{https://doi.org/10.1177/1745691616674458}
 
-\leavevmode\hypertarget{ref-Waltman2013}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-Waltman2013}{}}%
 Waltman, L., \& van Eck, N. J. (2013). A systematic empirical comparison of different approaches for normalizing citation impact indicators. \emph{Journal of Informetrics}, \emph{7}(4), 833--849. \url{https://doi.org/10.1016/j.joi.2013.08.002}
 
-\leavevmode\hypertarget{ref-Waltman2019}{}%
-Waltman, L., \& van Eck, N. J. (2019). Field Normalization of Scientometric Indicators. In W. Glänzel, H. F. Moed, U. Schmoch, \& M. Thelwall (Eds.), \emph{Springer Handbook of Science and Technology Indicators} (pp. 281--300). Cham: Springer International Publishing. \url{https://doi.org/10.1007/978-3-030-02511-3_11}
+\leavevmode\vadjust pre{\hypertarget{ref-Waltman2019}{}}%
+Waltman, L., \& van Eck, N. J. (2019). Field {Normalization} of {Scientometric Indicators}. In W. Glänzel, H. F. Moed, U. Schmoch, \& M. Thelwall (Eds.), \emph{Springer {Handbook} of {Science} and {Technology Indicators}} (pp. 281--300). {Cham}: {Springer International Publishing}. \url{https://doi.org/10.1007/978-3-030-02511-3_11}
 
-\leavevmode\hypertarget{ref-Wang2013}{}%
-Wang, D., Song, C., \& Barabási, A.-L. (2013). Quantifying Long-Term Scientific Impact. \emph{Science}, \emph{342}(6154), 127--132. \url{https://doi.org/10.1126/science.1237825}
+\leavevmode\vadjust pre{\hypertarget{ref-Wang2013}{}}%
+Wang, D., Song, C., \& Barabási, A.-L. (2013). Quantifying {Long}-{Term Scientific Impact}. \emph{Science}, \emph{342}(6154), 127--132. \url{https://doi.org/10.1126/science.1237825}
 
-\leavevmode\hypertarget{ref-Wang2019}{}%
-Wang, M., Ren, J., Li, S., \& Chen, G. (2019). Quantifying a Paper's Academic Impact by Distinguishing the Unequal Intensities and Contributions of Citations. \emph{IEEE Access}, \emph{7}, 96198--96214. \url{https://doi.org/10.1109/ACCESS.2019.2927016}
+\leavevmode\vadjust pre{\hypertarget{ref-Wang2019}{}}%
+Wang, M., Ren, J., Li, S., \& Chen, G. (2019). Quantifying a {Paper}'s {Academic Impact} by {Distinguishing} the {Unequal Intensities} and {Contributions} of {Citations}. \emph{IEEE Access}, \emph{7}, 96198--96214. \url{https://doi.org/10.1109/ACCESS.2019.2927016}
 
-\leavevmode\hypertarget{ref-Westfall2014}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-Westfall2014}{}}%
 Westfall, J., Kenny, D. A., \& Judd, C. M. (2014). Statistical power and optimal design in experiments in which samples of participants respond to samples of stimuli. \emph{Journal of Experimental Psychology: General}, \emph{143}(5), 2020--2045. \url{https://doi.org/10.1037/xge0000014}
 
-\leavevmode\hypertarget{ref-Yang2020}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-Yang2020}{}}%
 Yang, Y., Youyou, W., \& Uzzi, B. (2020). Estimating the deep replicability of scientific findings using human and artificial intelligence. \emph{Proceedings of the National Academy of Sciences}, \emph{117}(20), 10762--10768.
 
-\leavevmode\hypertarget{ref-Yuan2018}{}%
-Yuan, S., Tang, J., Zhang, Y., Wang, Y., \& Xiao, T. (2018). Modeling and Predicting Citation Count via Recurrent Neural Network with Long Short-Term Memory. \emph{arXiv:1811.02129 {[}Physics{]}}. Retrieved from \url{http://arxiv.org/abs/1811.02129}
+\leavevmode\vadjust pre{\hypertarget{ref-Yuan2018}{}}%
+Yuan, S., Tang, J., Zhang, Y., Wang, Y., \& Xiao, T. (2018). Modeling and {Predicting Citation Count} via {Recurrent Neural Network} with {Long Short}-{Term Memory}. \emph{arXiv:1811.02129 {[}Physics{]}}. Retrieved from \url{https://arxiv.org/abs/1811.02129}
 
-\leavevmode\hypertarget{ref-Zwaan2018}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-Zwaan2018}{}}%
 Zwaan, R. A., Etz, A., Lucas, R. E., \& Donnellan, M. B. (2018). Making replication mainstream. \emph{Behavioral and Brain Sciences}, \emph{41}. \url{https://doi.org/10.1017/S0140525X17001972}
-\end{cslreferences}
+
+\end{CSLReferences}
 
 
 \end{document}

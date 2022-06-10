@@ -36,13 +36,13 @@ affiliation:
     institution   : "Methodology and Statistics unit, Institute of Psychology, Leiden University"
 
 authornote: |
-  ""
+  This work was funded by VIDI grant 452-17-013. 
 
 abstract: |
  Researchers seeking to replicate original research often need to decide which of several relevant candidates to select for replication. Several strategies for study selection have been proposed, utilizing a variety of observed indicators as criteria for selection. However, few strategies clearly specify the goal of study selection and how that goal is related to the indicators that are utilized. We have previously formalized a decision model of replication study selection in which the goal of study selection is to maximize the *expected utility gain* of the replication effort. We further define the concept of *replication value* as a proxy for expected utility gain [@Isager2020]. In this article, we propose a quantitative operationalization of replication value. We first discuss how *value* and *uncertainty* - the two concepts used to determine replication value – could be estimated via information about *citation count* and *sample size*. Second, we propose an equation for combining these indicators into an overall estimate of replication value, which we denote *RV~Cn~*. Third, we suggest how *RV~Cn~* could be implemented as part of a broader study selection procedure. Finally, we provide preliminary data suggesting that studies that were in fact selected for replication tend to have relatively high *RV~Cn~* estimates. The goal of this article is to explain how *RV~Cn~* is intended to work and, in doing so, demonstrate the many assumptions that should be explicit in *any* replication study selection strategy.
   
 keywords          : "replication value, replication, study selection, expected utility, RVcn"
-wordcount         : "10095"
+wordcount         : "10103"
 
 bibliography      : ["RVcn_bibliography.bib"]
 
@@ -180,7 +180,7 @@ Here we propose to adjust for publication age by simply dividing citation count 
 source("figure_2.R")
 ```
 
-Adjustment by averaging over age works less well when the citation trajectory of an article is not constant over time. Figure \@ref(fig:2)B displays a more realistic 50-year citation trajectory [@Parolo2015]. In this context, predicting the future trajectory based on past average yearly citation count leads to a considerable overestimate of future citations. In fact, average yearly citation count will systematically over- or underestimate the future citation trajectory whenever the trajectory is not converging towards the past average yearly citation count. We therefore recommend that, whenever possible, prediction of future citation impact should be based on more sophisticated prediction techniques that utilize the entire distribution of past citation rate and other bibliometric features of the target article [e.g., Chakraborty2014; @Yuan2018]^[Even detailed access to the past citation record of an article will not always allow for accurate prediction of future citation count however, due to phenomena such as “sleeping beauties” [Ke2015] and other hard-to-predict fluctuations in citation rate.]. However, these methods require advanced expertise to understand and implement, and the information required to implement them may not always be available. For now, we focus on the simpler method of averaging over article age, which provides a rough but useful method for adjusting citation impact estimates so replication targets of different ages can be compared. 
+Adjustment by averaging over age works less well when the citation trajectory of an article is not constant over time. Figure \@ref(fig:2)B displays a more realistic 50-year citation trajectory [@Parolo2015]. In this context, predicting the future trajectory based on past average yearly citation count leads to a considerable overestimate of future citations. In fact, average yearly citation count will systematically over- or underestimate the future citation trajectory whenever the trajectory is not converging towards the past average yearly citation count. We therefore recommend that, whenever possible, prediction of future citation impact should be based on more sophisticated prediction techniques that utilize the entire distribution of past citation rate and other bibliometric features of the target article [e.g., @Chakraborty2014; @Yuan2018]^[Even detailed access to the past citation record of an article will not always allow for accurate prediction of future citation count however, due to phenomena such as “sleeping beauties” [@Ke2015] and other hard-to-predict fluctuations in citation rate.]. However, these methods require advanced expertise to understand and implement, and the information required to implement them may not always be available. For now, we focus on the simpler method of averaging over article age, which provides a rough but useful method for adjusting citation impact estimates so replication targets of different ages can be compared. 
 
 In addition to controlling for age, we also need to consider the source that the citation count estimate is derived from. Citation counts retrieved from different sources (such as Google Scholar, Crossref, Scopus or Web of Science) differ both in terms of their reference coverage and in their exact citation counts for the same reference [@Martin-Martin2018]. However, rank-order correlations between citation counts from different sources appear to be very high [@Martin-Martin2018; @Burgers2019]. Thus, as long as the same source is consistently used for all replication candidates under consideration, the relative rank-order difference in citation count between two candidates should be highly similar regardless of which source we use.
 
@@ -234,7 +234,7 @@ If we operationalize value and uncertainty as specified in equations \@ref(eq:4)
 
 \begin{equation} 
   \tag{6}
-  RV_{Cn} = value\times uncertainty = \frac{w(C_{S})}{\sqrt{Y+1}}\times\frac{1}{\sqrt{n}}
+  RV_{Cn} = value\times uncertainty = \frac{w(C_{S})}{Y+1}\times\frac{1}{\sqrt{n}}
   (\#eq:6)
 \end{equation}
 
