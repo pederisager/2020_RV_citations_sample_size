@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.6.10)  10 JUN 2022 15:28
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.6.10)  13 JUN 2022 15:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -730,7 +730,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{equation.0.1})
                    \relax 
 l.240 \begin{equation}
                        [3]
-<figure_1.png, id=100, 768.8725pt x 889.3225pt>
+<figure_1.png, id=101, 768.8725pt x 889.3225pt>
 File: figure_1.png Graphic file (type png)
 <use figure_1.png>
 Package pdftex.def Info: figure_1.png  used on input line 260.
@@ -742,12 +742,15 @@ Underfull \vbox (badness 1215) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [4 <./figure_1.png>]
-<RVcn_manuscript_files/figure-latex/2-1.pdf, id=111, 469.755pt x 325.215pt>
+<RVcn_manuscript_files/figure-latex/2-1.pdf, id=112, 469.755pt x 325.215pt>
 File: RVcn_manuscript_files/figure-latex/2-1.pdf Graphic file (type pdf)
 <use RVcn_manuscript_files/figure-latex/2-1.pdf>
 Package pdftex.def Info: RVcn_manuscript_files/figure-latex/2-1.pdf  used on input line 276.
 (pdftex.def)             Requested size: 241.74374pt x 167.36105pt.
 [5 <./RVcn_manuscript_files/figure-latex/2-1.pdf>]
+Underfull \vbox (badness 1215) has occurred while \output is active []
+
+
 pdfTeX warning (ext4): destination with the same identifier (name{equation.0.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -768,12 +771,12 @@ pdfTeX warning (ext4): destination with the same identifier (name{equation.0.1})
                    \relax 
 l.290 \begin{equation}
                        [6]
-<figure_3.png, id=135, 586.19pt x 887.315pt>
+<figure_3.png, id=138, 586.19pt x 887.315pt>
 File: figure_3.png Graphic file (type png)
 <use figure_3.png>
 Package pdftex.def Info: figure_3.png  used on input line 309.
 (pdftex.def)             Requested size: 241.7348pt x 365.91364pt.
-
+[7 <./figure_3.png>]
 pdfTeX warning (ext4): destination with the same identifier (name{equation.0.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -793,11 +796,6 @@ pdfTeX warning (ext4): destination with the same identifier (name{equation.0.1})
 <to be read again> 
                    \relax 
 l.315 \begin{equation}
-                       [7]
-pdfTeX warning (ext4): destination with the same identifier (name{equation.0.1}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.332 \begin{equation}
                       
 pdfTeX warning (ext4): destination with the same identifier (name{equation.0.1}) has been already used, duplicate ignored
 <to be read again> 
@@ -813,8 +811,13 @@ pdfTeX warning (ext4): destination with the same identifier (name{equation.0.1})
 <to be read again> 
                    \relax 
 l.332 \begin{equation}
-                       [8 <./figure_3.png>]
-<figure_4.png, id=166, 885.3075pt x 483.8075pt>
+                      
+pdfTeX warning (ext4): destination with the same identifier (name{equation.0.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.332 \begin{equation}
+                       [8]
+<figure_4.png, id=169, 885.3075pt x 483.8075pt>
 File: figure_4.png Graphic file (type png)
 <use figure_4.png>
 Package pdftex.def Info: figure_4.png  used on input line 344.
@@ -828,47 +831,50 @@ Package textcomp Info: Symbol \textrightarrow not provided by
 Package textcomp Info: Symbol \textrightarrow not provided by
 (textcomp)             font family ptm in TS1 encoding.
 (textcomp)             Default family used instead on input line 345.
-<RVcn_manuscript_files/figure-latex/5-1.pdf, id=168, 469.755pt x 325.215pt>
+<RVcn_manuscript_files/figure-latex/5-1.pdf, id=171, 469.755pt x 325.215pt>
 File: RVcn_manuscript_files/figure-latex/5-1.pdf Graphic file (type pdf)
 <use RVcn_manuscript_files/figure-latex/5-1.pdf>
 Package pdftex.def Info: RVcn_manuscript_files/figure-latex/5-1.pdf  used on input line 352.
 (pdftex.def)             Requested size: 241.74374pt x 167.36105pt.
-[9 <./figure_4.png> <./RVcn_manuscript_files/figure-latex/5-1.pdf>]
-<Figure_6.png, id=194, 485.815pt x 686.565pt>
+<Figure_6.png, id=178, 485.815pt x 686.565pt>
 File: Figure_6.png Graphic file (type png)
 <use Figure_6.png>
 Package pdftex.def Info: Figure_6.png  used on input line 382.
 (pdftex.def)             Requested size: 241.74307pt x 341.6369pt.
+[9 <./figure_4.png> <./RVcn_manuscript_files/figure-latex/5-1.pdf>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
 Package textcomp Info: Symbol \textleftarrow not provided by
 (textcomp)             font family ptm in TS1 encoding.
 (textcomp)             Default family used instead on input line 391.
 Package textcomp Info: Symbol \textrightarrow not provided by
 (textcomp)             font family ptm in TS1 encoding.
 (textcomp)             Default family used instead on input line 391.
-
-Underfull \vbox (badness 1694) has occurred while \output is active []
-
 [10 <./Figure_6.png>]
-<RVcn_manuscript_files/figure-latex/7-1.pdf, id=213, 469.755pt x 325.215pt>
+<RVcn_manuscript_files/figure-latex/7-1.pdf, id=217, 469.755pt x 325.215pt>
 File: RVcn_manuscript_files/figure-latex/7-1.pdf Graphic file (type pdf)
 <use RVcn_manuscript_files/figure-latex/7-1.pdf>
 Package pdftex.def Info: RVcn_manuscript_files/figure-latex/7-1.pdf  used on input line 445.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[11]
+[11] [12]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[12]
+
 Underfull \vbox (badness 2376) has occurred while \output is active []
 
 [13 <./RVcn_manuscript_files/figure-latex/7-1.pdf>]
-Underfull \vbox (badness 1215) has occurred while \output is active []
-
-<figure_8.png, id=254, 885.3075pt x 483.8075pt>
+<figure_8.png, id=255, 885.3075pt x 483.8075pt>
 File: figure_8.png Graphic file (type png)
 <use figure_8.png>
 Package pdftex.def Info: figure_8.png  used on input line 473.
 (pdftex.def)             Requested size: 241.73795pt x 132.10623pt.
+
+Underfull \vbox (badness 1215) has occurred while \output is active []
+
 [14 <./figure_8.png>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [15]
@@ -884,18 +890,18 @@ Package rerunfilecheck Info: File `RVcn_manuscript.out' has not changed.
 (rerunfilecheck)             Checksum: 88BF39F7DC146D6B839DDA72DE535AAE;3349.
  ) 
 Here is how much of TeX's memory you used:
- 15553 strings out of 480253
- 256522 string characters out of 5892444
- 580748 words of memory out of 5000000
+ 15556 strings out of 480253
+ 256543 string characters out of 5892444
+ 581604 words of memory out of 5000000
  33039 multiletter control sequences out of 15000+600000
- 539228 words of font info for 129 fonts, out of 8000000 for 9000
+ 539917 words of font info for 131 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  72i,17n,77p,3386b,563s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/Users/pedisa94/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc} <c:/Users/pedisa94/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk><c:/Users/pedisa94/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/Users/pedisa94/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/Users/pedisa94/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/Users/pedisa94/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/Users/pedisa94/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/Users/pedisa94/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><c:/Users/pedisa94/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/Users/pedisa94/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on RVcn_manuscript.pdf (17 pages, 424320 bytes).
+Output written on RVcn_manuscript.pdf (17 pages, 423686 bytes).
 PDF statistics:
- 485 PDF objects out of 1000 (max. 8388607)
- 427 compressed objects within 5 object streams
- 135 named destinations out of 1000 (max. 500000)
+ 487 PDF objects out of 1000 (max. 8388607)
+ 429 compressed objects within 5 object streams
+ 136 named destinations out of 1000 (max. 500000)
  161 words of extra memory for PDF output out of 10000 (max. 10000000)
 
