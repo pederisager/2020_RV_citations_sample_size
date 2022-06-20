@@ -6,7 +6,7 @@
 #-------------------------------------------------------#
 
 
-#### Load dataset and relevant packages, and set working dir #### 
+#### Load relevant packages and set working dir #### 
 
 setwd("curate_science_study/")
 library(rcrossref)
@@ -15,6 +15,8 @@ library(ggpubr)
 library(stringr)
 library(rcompanion)
 library(scales)
+
+#### One-off code that was run for data collection ####
 
 #curate_science <- read.csv("https://raw.githubusercontent.com/eplebel/science-commons/master/CS.rep.table.csv", na.strings = "", stringsAsFactors = FALSE)  # Download latest version of Curate Science data
 #write.csv(x = curate_science, file = "curate_science.csv", row.names = F)  # Save latest version of Curate Science data
@@ -25,14 +27,18 @@ library(scales)
 # write_json(cursci_orig_cr, "curate_science_orig_study_crossref.json", pretty = TRUE)
 # saveRDS(cursci_orig_cr, "curate_science_orig_study_crossref.Rds")
 
-
-
-
-# Psychological Bulletin sample
-
-### Update citation counts for Psych. Bulletin dataset
+## Update citation counts for Psych. Bulletin dataset
 #pbul_citations <- cr_citation_count(doi = pbul.df$x_doi)  
 #saveRDS(pbul_citations, "psych_bulletin_crossref_citation_count_downloaded_2020-10-20.Rds")
+
+### Update citation counts for Curate Science dataset
+#cursci_citations <- cr_citation_count(doi = curate_science$orig.study.article.DOI)  
+#saveRDS(cursci_citations, "curate_science_crossref_citation_count_downloaded_2020-10-20.Rds")
+
+
+#### Load and wrangle data ####
+
+# Psychological Bulletin sample
 
 ## Load data
 pbul.df <- readRDS("psybull_meta_data.rds")
@@ -64,11 +70,6 @@ rm(list=c("dups", "pbul_citations", "pbul.df", "x", "delete"))
 
 # Curate Science sample
 
-### Update citation counts for Curate Science dataset
-#cursci_citations <- cr_citation_count(doi = curate_science$orig.study.article.DOI)  
-#saveRDS(cursci_citations, "curate_science_crossref_citation_count_downloaded_2020-10-20.Rds")
-
-
 ## Load Curate Science data
 curate_science <- read.csv("curate_science.csv", na.strings = "", stringsAsFactors = FALSE)  # Load curate science data
 curate_science$orig.N <- as.numeric(curate_science$orig.N)  # Interpret sample size as numeric variable
@@ -84,7 +85,7 @@ dups <- dups[order(dups$orig.study.article.DOI, dups$orig.citations),]  # order 
 delete <- as.numeric(rownames(dups[seq(1, nrow(dups), by = 2),]))  # row numbers in x for the odd rows in dups that are to be deleted.
 x <- x[!rownames(x) %in% delete,]  # remove rows from x to get completely unique doi-citation count combinations
 curate_science <- left_join(x = curate_science, y = x, by = "orig.study.article.DOI")  # update citation counts 
-### Update done
+
 
 
 
@@ -123,27 +124,27 @@ RVdata$order <- 1:nrow(RVdata)
 rm(dups, cr.df, cursci_citations, cursci_orig_cr, x, doi, rep.years, years, delete)
 
 
+
+
+
+
+
+
 #### Analyses ####
 
+# Citation count replicated studies vs. general studies
 
-
-
-## Citation count replicated studies vs. general studies
-
-### Curate science data
+## Curate science data
 cs.c.n <- length(unique(RVdata[, c("orig.DOI", "citations")])[[2]])
 cs.c <- unique(RVdata[, c("orig.DOI", "citations")])[[2]]
 cs.c.iqr <- quantile(x = cs.c, probs = c(.25, .5, .75))
-### Psychological bulletin data
+## Psychological bulletin data
 pbul.c.n <- nrow(pbul.cit.df)
 pbul.c <- pbul.cit.df$x_crcited
 pbul.c.iqr <- quantile(x = pbul.c, probs = c(.25, .5, .75))
-### Common language effect size 
-set.seed(20202010)
-#c.vda <- vda(x = cs.c, y = pbul.c, ci = T, conf = .99)  # VDA for probability x>y
-### Mann-Whitney U test
+## Mann-Whitney U test
 wilcox.test(cs.c, pbul.c)
-### Plot
+## Plot
 p.c <- ggplot(data = pbul.cit.df)  +
   geom_density(aes(x = x_crcited^(1/3)), fill = "red", alpha = 0.5, na.rm = T, adjust = 0.5) + 
   geom_density(data = as.data.frame(cs.c^(1/3)), aes(x = cs.c^(1/3)), fill = "blue", alpha = 0.5, na.rm = T, adjust = 0.5) +
@@ -152,22 +153,19 @@ p.c <- ggplot(data = pbul.cit.df)  +
   scale_x_continuous(breaks = c(0, 5, 10, 15, 20), labels = c(0, 5, 10, 15, 20)^3)
 
 
-## Median average yearly citation count of original findings
+# Median average yearly citation count of original findings
 
-### Curate science data
+## Curate science data
 cs.cy.n <- length(unique(RVdata[, c("orig.DOI", "y.cit")])[[2]])
 cs.cy <- unique(RVdata[, c("orig.DOI", "y.cit")])[[2]]
 cs.cy.iqr <- quantile(x = cs.cy, probs = c(.25, .5, .75))
-### Psychological bulletin data
+## Psychological bulletin data
 pbul.cy.n <- length(pbul.cit.df$x_crcited/(2020-pbul.cit.df$x_pubyear))
 pbul.cy <- pbul.cit.df$x_crcited/(2020-pbul.cit.df$x_pubyear)
 pbul.cy.iqr <- quantile(x = pbul.cy, probs = c(.25, .5, .75))
-### Common language effect size 
-set.seed(20202010)
-#cy.vda <- vda(x = cs.cy, y = pbul.cy, ci = T, conf = .99)  # VDA for probability x>y
-### Mann-Whitney U test
+## Mann-Whitney U test
 wilcox.test(cs.cy, pbul.cy)
-### Plot
+## Plot
 p.cy <- ggplot(data = pbul.cit.df)  +
   geom_density(aes(x = cit_p_year^(1/3)), fill = "red", alpha = 0.5, na.rm = T, adjust = 0.5) + 
   geom_density(data = as.data.frame(cs.cy^(1/3)), aes(x = cs.cy^(1/3)), fill = "blue", alpha = 0.5, na.rm = T, adjust = 0.5) +
@@ -176,22 +174,19 @@ p.cy <- ggplot(data = pbul.cit.df)  +
   scale_x_continuous(breaks = c(0, 2, 4, 6, 8), labels = c(0, 2, 4, 6, 8)^3)
 
 
-## Median sample size of original findings
+# Median sample size of original findings
 
-### Curate science data
+## Curate science data
 cs.n.n <- length(unique(RVdata[, c("orig.DOI", "orig.study.number", "sample_size")])[[2]])
 cs.n <- unique(RVdata[, c("orig.DOI", "orig.study.number", "sample_size")])[[3]]
 cs.n.iqr <- quantile(x = cs.n, probs = c(.25, .5, .75))
-### Psychological bulletin data
+## Psychological bulletin data
 pbul.n.n <- length(pbul.cit.df$x_n)
 pbul.n <- pbul.cit.df$x_n
 pbul.n.iqr <- quantile(x = pbul.n, probs = c(.25, .5, .75))
-### Common language effect size 
-set.seed(20202010)
-#n.vda <- vda(x = cs.n, y = pbul.n, ci = T, conf = .99)  # VDA for probability x>y
-### Mann-Whitney U test
+## Mann-Whitney U test
 wilcox.test(cs.n, pbul.n)
-### Plot 
+## Plot 
 p.n <- ggplot(data = pbul.cit.df)  +
   geom_density(aes(x = x_n^(1/3)), fill = "red", alpha = 0.5, na.rm = T, adjust = 0.5) + 
   geom_density(data = as.data.frame(cs.n^(1/3)), aes(x = cs.n^(1/3)), fill = "blue", alpha = 0.5, na.rm = T, adjust = 0.5) +
@@ -200,22 +195,19 @@ p.n <- ggplot(data = pbul.cit.df)  +
   scale_x_continuous(breaks = c(0, 5, 10, 15, 20), labels = c(0, 5, 10, 15, 20)^3, limits = c(0, 20))
 
 
-## Median replication value of original findings
+# Median replication value of original findings
 
-### Curate science data
+## Curate science data
 cs.RV.n <- length(unique(RVdata[, c("orig.DOI", "orig.study.number", "RV")])[[2]])
 cs.RV <- unique(RVdata[, c("orig.DOI", "orig.study.number", "RV")])[[3]]
 cs.RV.iqr <- quantile(x = cs.RV, probs = c(.25, .5, .75))
-### Psychological bulletin data
+## Psychological bulletin data
 pbul.RV.n <- length(pbul.cit.df$RV)
 pbul.RV <- pbul.cit.df$RV
 pbul.RV.iqr <- quantile(x = pbul.RV, probs = c(.25, .5, .75))
-### Common language effect size 
-set.seed(20202010)
-#RV.vda <- vda(x = cs.RV, y = pbul.RV, ci = T, conf = .99)  # VDA for probability x>y
-### Mann-Whitney U test
+## Mann-Whitney U test
 wilcox.test(cs.RV, pbul.RV)
-### Plot
+## Plot
 p.RV <- ggplot(data = pbul.cit.df)  +
   geom_density(aes(x = RV^(1/3), fill = 'red'), alpha = 0.5, na.rm = T, adjust = 0.5) + 
   geom_density(data = as.data.frame(cs.RV^(1/3)), aes(x = cs.RV^(1/3), fill = 'blue'), alpha = 0.5, na.rm = T, adjust = 0.5) +
@@ -224,17 +216,33 @@ p.RV <- ggplot(data = pbul.cit.df)  +
   scale_x_continuous(breaks = c(0, 0.5, 1.0, 1.5, 2.0), labels = c(0, 0.5, 1.0, 1.5, 2.0)^3) +
   scale_fill_manual(name = 'sample', values =c('blue'='blue','red'='red'), labels = c('replicated','comparison'))
 
+
+
+# VDA analyses
+
+#set.seed(20202010)
+#c.vda <- vda(x = cs.c, y = pbul.c, ci = T, conf = .99)  # VDA for probability x>y
+# set.seed(20202010)
+#cy.vda <- vda(x = cs.cy, y = pbul.cy, ci = T, conf = .99)  # VDA for probability x>y
+#set.seed(20202010)
+#n.vda <- vda(x = cs.n, y = pbul.n, ci = T, conf = .99)  # VDA for probability x>y
+#set.seed(20202010)
+#RV.vda <- vda(x = cs.RV, y = pbul.RV, ci = T, conf = .99)  # VDA for probability x>y
+
 ## Save/read all vda values in a file so simulations do not have to be rerun every time script is sourced. 
 # vdas <- rbind(c.vda, cy.vda, n.vda, RV.vda)
 # rownames(vdas) <- c("c", "cy", "n", "RV")
 # saveRDS(vdas, file = "vda_values.Rds")
 vdas <- readRDS("vda_values.Rds")  # Load saved vda values
 
-## Combine plots into grid for manuscript
+
+
+
+# Combine plots into grid for manuscript
 
 p.all <- ggarrange(p.c, p.cy, p.n, p.RV, ncol=2, nrow=2, common.legend = TRUE, legend="bottom")
 
-## Combine summary stats into table for manuscript
+# Combine summary stats into table for manuscript
 
 summary.tab <- data.frame(variable = c("citation count", 
                                        "citation count", 

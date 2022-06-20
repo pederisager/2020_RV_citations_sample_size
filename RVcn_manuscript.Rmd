@@ -6,7 +6,7 @@ author:
   - name          : "Peder Mortvedt Isager"
     affiliation   : "1"
     corresponding : yes    # Define only one corresponding author
-    address       : "Den Dolech 1, Atlas 9.417, 5600 MB, Eindhoven, The Netherlands"
+    address       : "Lovisenberggata 13, 0456 Oslo, Norway"
     email         : "pederisager@gmail.com"
     role:
       - Conceptualization
@@ -20,7 +20,7 @@ author:
       - Supervision
       - Writing - Review & Editing
   - name          : "Daniël Lakens"
-    affiliation   : "1"
+    affiliation   : "3"
     role:
       - Conceptualization
       - Funding acquisition
@@ -31,9 +31,11 @@ author:
 
 affiliation:
   - id            : "1"
-    institution   : "Department of Industrial Engineering & Innovation Sciences, Eindhoven University of Technology"
+    institution   : "Department of Psychology, Oslo New University College"
   - id            : "2"
     institution   : "Methodology and Statistics unit, Institute of Psychology, Leiden University"
+  - id            : "3"
+    institution   : "Department of Industrial Engineering & Innovation Sciences, Eindhoven University of Technology"
 
 authornote: |
   This work was funded by VIDI grant 452-17-013. 
